@@ -39,7 +39,7 @@ if ! /usr/bin/git remote get-url origin >/dev/null 2>&1; then
 fi
 
 # Commit only after work has remained unchanged for at least ten minutes.
-# The LaunchAgent checks this condition once a minute.
+# The LaunchAgent checks this condition once every five minutes.
 if [[ -z "$(/usr/bin/git status --porcelain)" ]]; then
   if /usr/bin/git rev-parse --verify '@{upstream}' >/dev/null 2>&1 &&
      [[ "$(/usr/bin/git rev-list --count '@{upstream}..HEAD')" -gt 0 ]]; then
