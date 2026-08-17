@@ -2,7 +2,7 @@
 
 set -u
 
-repo_dir="/Users/gaeun/Downloads/workspace/mini_project"
+repo_dir="/Users/gaeun/Projects/mini_project"
 log_file="/Users/gaeun/Library/Logs/mini-project-auto-git-sync.log"
 
 timestamp() {
@@ -54,4 +54,3 @@ else
   log "Failed: push"
   exit 1
 fi
-
