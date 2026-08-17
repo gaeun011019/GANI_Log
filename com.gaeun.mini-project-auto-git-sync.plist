@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.gaeun.mini-project-auto-git-sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>/Users/gaeun/Library/Application Support/CodexAutoSync/mini-project-auto-git-sync.sh</string>
+  </array>
+  <key>StartInterval</key>
+  <integer>1800</integer>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardOutPath</key>
+  <string>/Users/gaeun/Library/Logs/mini-project-auto-git-sync-launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/gaeun/Library/Logs/mini-project-auto-git-sync-launchd-error.log</string>
+</dict>
+</plist>
