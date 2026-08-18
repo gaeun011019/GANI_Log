@@ -53,6 +53,19 @@ function makeClickable(element, action) {
   }
 }
 
+const sidebarDotStyle = document.createElement("style");
+sidebarDotStyle.textContent = ".sidelink .dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:currentColor;display:inline-block}";
+document.head.append(sidebarDotStyle);
+
+document.querySelectorAll(".sidelink").forEach((link) => {
+  const menuName = link.textContent.trim().replace(/^●\s*/, "");
+  if (!link.querySelector(".dot")) {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    link.replaceChildren(dot, document.createTextNode(menuName));
+  }
+});
+
 document.querySelectorAll(".sidelink").forEach((link) => {
   const menuName = link.textContent.trim().replace(/^●\s*/, "");
   const destination = pageByMenu[menuName];
@@ -63,7 +76,7 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   if ([...sidebar.querySelectorAll(".sidelink")].some((link) => link.textContent.trim().includes("친구 · 공유"))) return;
   const link = document.createElement("div");
   link.className = "sidelink";
-  link.textContent = "● 친구 · 공유";
+  link.innerHTML = '<span class="dot"></span>친구 · 공유';
   const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
   const menuContainer = equipmentLink?.parentElement || sidebar;
   menuContainer.insertBefore(link, equipmentLink || null);
@@ -74,7 +87,7 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   if ([...sidebar.querySelectorAll(".sidelink")].some((link) => link.textContent.trim().includes("버디 로그"))) return;
   const link = document.createElement("div");
   link.className = "sidelink";
-  link.textContent = "● 버디 로그";
+  link.innerHTML = '<span class="dot"></span>버디 로그';
   const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
   const menuContainer = equipmentLink?.parentElement || sidebar;
   menuContainer.insertBefore(link, equipmentLink || null);
