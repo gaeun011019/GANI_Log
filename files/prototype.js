@@ -510,6 +510,16 @@ if (title === "내 정보") {
   const certificationText = document.querySelector("#profile-certification");
   const avatar = document.querySelector("#profile-avatar");
   const errorText = document.querySelector("#profile-form-error");
+  const profileContent = document.querySelector(".content-area");
+
+  const certificateStyle = document.createElement("style");
+  certificateStyle.textContent = ".certificate-panel{max-width:720px;margin-top:18px;padding:18px;border:1px solid #e4e1d6;border-radius:12px;background:#fdfdfb}.certificate-panel h2{font-size:14px;margin:0 0 5px}.certificate-upload{display:grid;grid-template-columns:180px 1fr;gap:16px;margin-top:14px}.certificate-preview{height:132px;border:1px dashed #b9c9d8;border-radius:9px;background:#f5f8fa;display:grid;place-items:center;overflow:hidden;color:#888780;font-size:11px;text-align:center;padding:10px}.certificate-preview img{width:100%;height:100%;object-fit:contain}.certificate-controls input[type=file]{font-size:12px;max-width:100%}.certificate-status{min-height:18px;margin:9px 0;font-size:11px;color:#0c447c}.certificate-result{display:none;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:14px;padding-top:14px;border-top:1px solid #e4e1d6}.certificate-result.open{display:grid}.certificate-result .wide{grid-column:1/-1}.certificate-result input{width:100%;height:38px;border:1px solid #d8d5ca;border-radius:8px;padding:0 10px}.certificate-notice{font-size:11px;line-height:1.5;color:#633806;background:#faeeda;border-radius:8px;padding:9px 11px;margin-top:12px}@media(max-width:700px){.certificate-upload{grid-template-columns:1fr}.certificate-result{grid-template-columns:1fr}.certificate-result .wide{grid-column:auto}}";
+  document.head.append(certificateStyle);
+
+  const certificatePanel = document.createElement("section");
+  certificatePanel.className = "certificate-panel";
+  certificatePanel.innerHTML = '<h2>자격증 이미지로 등록</h2><p class="muted">자격증 사진을 첨부하고 판독 결과를 확인한 뒤 저장하세요.</p><div class="certificate-upload"><div id="certificate-preview" class="certificate-preview">선택한 자격증 이미지가 여기에 표시됩니다.</div><div class="certificate-controls"><label class="label" for="certificate-image">자격증 이미지</label><input id="certificate-image" type="file" accept="image/*"><p id="certificate-status" class="certificate-status" aria-live="polite"></p></div></div><div id="certificate-result" class="certificate-result"><div class="field"><label class="label" for="certificate-agency">발급 단체</label><input id="certificate-agency" placeholder="예: 발급 단체"></div><div class="field"><label class="label" for="certificate-level">자격 등급</label><input id="certificate-level" placeholder="예: Advanced Open Water"></div><div class="field"><label class="label" for="certificate-number">자격번호</label><input id="certificate-number" placeholder="자격번호"></div><div class="field"><label class="label" for="certificate-issued-on">발급일</label><input id="certificate-issued-on" type="date"></div><div class="wide"><button id="save-certificate-result" class="btn btn-primary" type="button">확인한 자격 정보 저장</button></div></div><p class="certificate-notice">현재는 프론트엔드 프로토타입이라 이미지 미리보기와 확인·저장 흐름만 작동합니다. 실제 AI 판독이나 자격증 진위 확인은 하지 않으며, 저장 전에 내용을 직접 확인해야 합니다.</p>';
+  profileContent.append(certificatePanel);
 
   const defaultProfile = {
     name: nameText.textContent.trim(),
@@ -545,6 +555,66 @@ if (title === "내 정보") {
   let profile = readProfile();
   renderProfile(profile);
 
+  const certificateImage = document.querySelector("#certificate-image");
+  const certificatePreview = document.querySelector("#certificate-preview");
+  const certificateStatus = document.querySelector("#certificate-status");
+  const certificateResult = document.querySelector("#certificate-result");
+  const certificateAgency = document.querySelector("#certificate-agency");
+  const certificateLevel = document.querySelector("#certificate-level");
+  const certificateNumber = document.querySelector("#certificate-number");
+  const certificateIssuedOn = document.querySelector("#certificate-issued-on");
+  let certificateImageData = profile.certificateImageData || "";
+
+  if (certificateImageData) {
+    certificatePreview.innerHTML = `<img src="${certificateImageData}" alt="저장된 자격증 이미지">`;
+  }
+
+  certificateImage.addEventListener("change", () => {
+    const file = certificateImage.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      certificateImageData = reader.result;
+      certificatePreview.innerHTML = `<img src="${certificateImageData}" alt="선택한 자격증 이미지">`;
+      certificateStatus.textContent = "AI 분석 화면을 준비하고 있습니다…";
+      certificateResult.classList.remove("open");
+      window.setTimeout(() => {
+        certificateStatus.textContent = "프로토타입 분석이 완료되었습니다. 이미지 내용을 보고 아래 항목을 직접 확인·수정해 주세요.";
+        certificateResult.classList.add("open");
+        certificateAgency.value = profile.certificationAgency || "";
+        certificateLevel.value = profile.certification || "";
+        certificateNumber.value = profile.certificationNumber || "";
+        certificateIssuedOn.value = profile.certificationIssuedOn || "";
+      }, 700);
+    });
+    reader.readAsDataURL(file);
+  });
+
+  document.querySelector("#save-certificate-result").addEventListener("click", () => {
+    const certification = certificateLevel.value.trim();
+    if (!certification) {
+      certificateStatus.textContent = "자격 등급을 확인해 입력해 주세요.";
+      certificateLevel.focus();
+      return;
+    }
+    profile = {
+      ...profile,
+      certification,
+      certificationAgency: certificateAgency.value.trim(),
+      certificationNumber: certificateNumber.value.trim(),
+      certificationIssuedOn: certificateIssuedOn.value,
+      certificateImageData,
+    };
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(profile));
+    } catch {
+      certificateStatus.textContent = "이미지 용량이 커서 저장하지 못했습니다. 더 작은 이미지를 선택해 주세요.";
+      return;
+    }
+    renderProfile(profile);
+    certificateStatus.textContent = "확인한 자격 정보를 저장했습니다.";
+  });
+
   editButton.addEventListener("click", () => {
     fillForm(profile);
     form.classList.add("open");
@@ -577,7 +647,7 @@ if (title === "내 정보") {
       return;
     }
 
-    profile = { name, email, certification };
+    profile = { ...profile, name, email, certification };
     localStorage.setItem(storageKey, JSON.stringify(profile));
     renderProfile(profile);
     form.classList.remove("open");
