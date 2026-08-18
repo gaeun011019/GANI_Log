@@ -116,6 +116,36 @@
         min-height: 800px;
         padding: 24px 32px;
       }
+      .sync-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid #e4e1d6;
+        background: #ffffff;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .sync-option.selected {
+        border-color: #378add;
+        background: #e6f1fb;
+      }
+      .sync-option:focus-visible {
+        outline: 2px solid #378add;
+        outline-offset: 2px;
+      }
+      .selection-indicator {
+        width: 16px;
+        height: 16px;
+        border: 1.5px solid #b4b2aa;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .sync-option.selected .selection-indicator {
+        border-color: #378add;
+        background: #378add;
+        box-shadow: inset 0 0 0 4px #e6f1fb;
+      }
     </style>
   </head>
   <body>
@@ -170,14 +200,12 @@
             "
           >
             <div
+              class="sync-option selected"
+              data-sync-method="bluetooth"
+              role="radio"
+              aria-checked="true"
+              tabindex="0"
               style="
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 14px;
-                border: 1px solid #378add;
-                background: #e6f1fb;
-                border-radius: 10px;
               "
             >
               <span
@@ -198,25 +226,15 @@
                   지원 기기와 근거리에서 자동으로 기록을 가져옵니다.
                 </p>
               </div>
-              <span
-                style="
-                  width: 16px;
-                  height: 16px;
-                  border-radius: 50%;
-                  background: #378add;
-                  display: inline-block;
-                "
-              ></span>
+              <span class="selection-indicator" aria-hidden="true"></span>
             </div>
             <div
+              class="sync-option"
+              data-sync-method="file"
+              role="radio"
+              aria-checked="false"
+              tabindex="0"
               style="
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 14px;
-                border: 1px solid #e4e1d6;
-                background: #ffffff;
-                border-radius: 10px;
               "
             >
               <span
@@ -237,6 +255,7 @@
                   다이브 컴퓨터에서 내보낸 파일(.fit, .csv 등)을 올립니다.
                 </p>
               </div>
+              <span class="selection-indicator" aria-hidden="true"></span>
             </div>
             <div
               style="

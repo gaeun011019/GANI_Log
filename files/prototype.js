@@ -50,6 +50,28 @@ if (title === "회원가입") {
 }
 
 if (title === "연동 시작") {
+  const syncOptions = [...document.querySelectorAll(".sync-option")];
+  const savedMethod = sessionStorage.getItem("gani-log-sync-method") || "bluetooth";
+
+  function selectSyncMethod(method) {
+    syncOptions.forEach((option) => {
+      const selected = option.dataset.syncMethod === method;
+      option.classList.toggle("selected", selected);
+      option.setAttribute("aria-checked", String(selected));
+    });
+    sessionStorage.setItem("gani-log-sync-method", method);
+  }
+
+  syncOptions.forEach((option) => {
+    option.addEventListener("click", () => selectSyncMethod(option.dataset.syncMethod));
+    option.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectSyncMethod(option.dataset.syncMethod);
+      }
+    });
+  });
+  selectSyncMethod(savedMethod);
   makeClickable(buttonNamed("취소"), () => goTo("5-대시보드.html"));
   makeClickable(buttonNamed("다음"), () => goTo("4-로그작성-2단계.html"));
 }
