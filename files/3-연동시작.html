@@ -130,18 +130,23 @@
         border-color: #378add;
         background: #e6f1fb;
       }
+      .sync-option:has(.sync-radio:checked) {
+        border-color: #378add;
+        background: #e6f1fb;
+      }
       .sync-option:focus-visible {
         outline: 2px solid #378add;
         outline-offset: 2px;
       }
-      .selection-indicator {
+      .sync-radio {
+        appearance: none;
         width: 16px;
         height: 16px;
         border: 1.5px solid #b4b2aa;
         border-radius: 50%;
         flex-shrink: 0;
       }
-      .sync-option.selected .selection-indicator {
+      .sync-radio:checked {
         border-color: #378add;
         background: #378add;
         box-shadow: inset 0 0 0 4px #e6f1fb;
@@ -199,8 +204,8 @@
               margin-bottom: 16px;
             "
           >
-            <div
-              class="sync-option selected"
+            <label
+              class="sync-option"
               data-sync-method="bluetooth"
               role="radio"
               aria-checked="true"
@@ -226,9 +231,9 @@
                   지원 기기와 근거리에서 자동으로 기록을 가져옵니다.
                 </p>
               </div>
-              <span class="selection-indicator" aria-hidden="true"></span>
-            </div>
-            <div
+              <input class="sync-radio" type="radio" name="sync-method" value="bluetooth" checked />
+            </label>
+            <label
               class="sync-option"
               data-sync-method="file"
               role="radio"
@@ -255,8 +260,8 @@
                   다이브 컴퓨터에서 내보낸 파일(.fit, .csv 등)을 올립니다.
                 </p>
               </div>
-              <span class="selection-indicator" aria-hidden="true"></span>
-            </div>
+              <input class="sync-radio" type="radio" name="sync-method" value="file" />
+            </label>
             <div
               style="
                 display: flex;
@@ -307,6 +312,6 @@
         </div>
       </div>
     </div>
-    <script src="prototype.js"></script>
+    <script src="prototype.js?v=2"></script>
   </body>
 </html>

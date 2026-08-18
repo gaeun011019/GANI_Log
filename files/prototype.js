@@ -51,6 +51,7 @@ if (title === "회원가입") {
 
 if (title === "연동 시작") {
   const syncOptions = [...document.querySelectorAll(".sync-option")];
+  const syncRadios = [...document.querySelectorAll(".sync-radio")];
   const savedMethod = sessionStorage.getItem("gani-log-sync-method") || "bluetooth";
 
   function selectSyncMethod(method) {
@@ -58,18 +59,13 @@ if (title === "연동 시작") {
       const selected = option.dataset.syncMethod === method;
       option.classList.toggle("selected", selected);
       option.setAttribute("aria-checked", String(selected));
+      option.querySelector(".sync-radio").checked = selected;
     });
     sessionStorage.setItem("gani-log-sync-method", method);
   }
 
-  syncOptions.forEach((option) => {
-    option.addEventListener("click", () => selectSyncMethod(option.dataset.syncMethod));
-    option.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        selectSyncMethod(option.dataset.syncMethod);
-      }
-    });
+  syncRadios.forEach((radio) => {
+    radio.addEventListener("change", () => selectSyncMethod(radio.value));
   });
   selectSyncMethod(savedMethod);
   makeClickable(buttonNamed("취소"), () => goTo("5-대시보드.html"));
