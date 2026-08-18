@@ -63,7 +63,7 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   if ([...sidebar.querySelectorAll(".sidelink")].some((link) => link.textContent.trim().includes("친구 · 공유"))) return;
   const link = document.createElement("div");
   link.className = "sidelink";
-  link.innerHTML = '<span class="dot"></span>친구 · 공유';
+  link.textContent = "● 친구 · 공유";
   const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
   const menuContainer = equipmentLink?.parentElement || sidebar;
   menuContainer.insertBefore(link, equipmentLink || null);
@@ -74,7 +74,7 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   if ([...sidebar.querySelectorAll(".sidelink")].some((link) => link.textContent.trim().includes("버디 로그"))) return;
   const link = document.createElement("div");
   link.className = "sidelink";
-  link.innerHTML = '<span class="dot"></span>버디 로그';
+  link.textContent = "● 버디 로그";
   const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
   const menuContainer = equipmentLink?.parentElement || sidebar;
   menuContainer.insertBefore(link, equipmentLink || null);
