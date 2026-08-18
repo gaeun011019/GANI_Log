@@ -117,7 +117,10 @@ if (title === "로그인") {
 }
 
 if (title === "회원가입") {
-  makeClickable(buttonNamed("가입하기"), () => goTo("3-연동시작.html"));
+  makeClickable(buttonNamed("가입하기"), () => {
+    localStorage.setItem("gani-log-current-user", JSON.stringify(currentUser));
+    goTo("5-대시보드.html");
+  });
   makeClickable(document.querySelector("p span"), () => goTo("1-로그인.html"));
 }
 
