@@ -110,3 +110,86 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 ```
 
 </details>
+
+## 2026-08-18 20:57:10
+
+### 변경 요약
+
+- 로그 작성 3단계에 선택형 다이빙 사진 업로드를 추가했습니다.
+- 여러 장의 사진을 미리 보고 개별 제거할 수 있으며, 사진이 없어도 기존 흐름대로 진행할 수 있습니다.
+- 선택한 사진은 4단계 확인 화면, 저장된 로그, 친구 공유와 버디 로그의 썸네일에 연결했습니다.
+
+### 변경된 파일
+
+- 수정: `files/prototype.js`
+- 수정: `files` 폴더의 HTML 화면 스크립트 버전
+
+## 2026-08-18 20:53:27
+
+### 변경 요약
+
+- 자동 변경 기록 형식 정리
+
+### 변경된 파일
+
+- 수정: `.auto-git-sync.sh`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ .auto-git-sync.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+</details>
+
+## 2026-08-18 20:57:34
+
+### 변경 요약
+
+- 15개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 이름 변경: `.githooks/prepare-commit-msg` → `.githooks/pre-commit`
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ .githooks/{prepare-commit-msg => pre-commit} | 21 +++++------
+ files/1-로그인.html                          |  2 +-
+ files/10-로그작성-3단계.html                 |  2 +-
+ files/11-로그작성-4단계.html                 |  2 +-
+ files/12-친구공유.html                       |  2 +-
+ files/13-버디로그.html                       |  2 +-
+ files/2-회원가입.html                        |  2 +-
+ files/3-연동시작.html                        |  2 +-
+ files/4-로그작성-2단계.html                  |  2 +-
+ files/5-대시보드.html                        |  2 +-
+ files/6-로그목록.html                        |  2 +-
+ files/7-로그상세.html                        |  2 +-
+ files/8-장비관리.html                        |  2 +-
+ files/9-내정보.html                          |  2 +-
+ files/prototype.js                           | 55 +++++++++++++++++++++++++---
+ 15 files changed, 72 insertions(+), 30 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 885fc0465b0975ad0461b6125b17da516eff20593084a2fbe91f221f51c845b1 -->

@@ -2,14 +2,6 @@
 
 set -u
 
-message_file="$1"
-commit_source="${2:-}"
-
-# 병합·재사용 커밋에는 같은 변경 기록을 다시 추가하지 않는다.
-if [[ "$commit_source" == "merge" || "$commit_source" == "commit" ]]; then
-  exit 0
-fi
-
 repo_dir=$(/usr/bin/git rev-parse --show-toplevel)
 change_log="$repo_dir/AUTO_CHANGELOG.md"
 
@@ -17,12 +9,15 @@ if /usr/bin/git diff --cached --quiet -- . ':(exclude)AUTO_CHANGELOG.md'; then
   exit 0
 fi
 
-timestamp=$(/bin/date '+%Y-%m-%d %H:%M:%S')
-subject=$(/usr/bin/sed -n '/^[^#]/ { p; q; }' "$message_file")
-[[ -n "$subject" ]] || subject="변경 내용 자동 저장"
+change_fingerprint=$(/usr/bin/git diff --cached --binary -- . ':(exclude)AUTO_CHANGELOG.md' | /usr/bin/shasum -a 256 | /usr/bin/awk '{print $1}')
+if /usr/bin/grep -Fq "<!-- change-id: $change_fingerprint -->" "$change_log"; then
+  exit 0
+fi
 
+timestamp=$(/bin/date '+%Y-%m-%d %H:%M:%S')
 change_status=$(/usr/bin/git -c core.quotePath=false diff --cached --name-status -- . ':(exclude)AUTO_CHANGELOG.md')
 change_stat=$(/usr/bin/git -c core.quotePath=false diff --cached --stat -- . ':(exclude)AUTO_CHANGELOG.md')
+change_count=$(/bin/echo "$change_status" | /usr/bin/awk 'NF { count++ } END { print count + 0 }')
 
 {
   /bin/echo
@@ -30,7 +25,7 @@ change_stat=$(/usr/bin/git -c core.quotePath=false diff --cached --stat -- . ':(
   /bin/echo
   /bin/echo "### 변경 요약"
   /bin/echo
-  /bin/echo "- $subject"
+  /bin/echo "- ${change_count}개 파일의 변경 내용을 저장했습니다."
   /bin/echo
   /bin/echo "### 변경된 파일"
   /bin/echo
@@ -57,6 +52,8 @@ change_stat=$(/usr/bin/git -c core.quotePath=false diff --cached --stat -- . ':(
   /bin/echo '```'
   /bin/echo
   /bin/echo "</details>"
+  /bin/echo
+  /bin/echo "<!-- change-id: $change_fingerprint -->"
 } >> "$change_log"
 
 /usr/bin/git add AUTO_CHANGELOG.md

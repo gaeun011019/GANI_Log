@@ -54,7 +54,7 @@ function makeClickable(element, action) {
 }
 
 const sidebarDotStyle = document.createElement("style");
-sidebarDotStyle.textContent = ".sidelink .dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:currentColor;display:inline-block}.gani-logo{height:34px!important;margin:0 0 20px!important;display:flex;align-items:center}.gani-logo img{display:block;width:136px;height:34px}";
+sidebarDotStyle.textContent = ".sidelink .dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:currentColor;display:inline-block}.gani-logo{height:34px!important;margin:0 0 20px!important;display:flex;align-items:center}.gani-logo img{display:block;width:136px;height:34px}.photo-picker{border:1px dashed #b9c9d8;border-radius:10px;padding:12px;background:#f8fbfd}.photo-picker input{border:0!important;padding:0!important}.photo-preview-list{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.photo-preview{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#eef1f3}.photo-preview img{width:100%;height:100%;object-fit:cover}.photo-remove{position:absolute;right:5px;top:5px;width:24px;height:24px;border:0;border-radius:50%;background:rgba(25,32,38,.78);color:#fff;cursor:pointer}.log-photo-section{max-width:720px;margin-top:12px}.log-photo-section h2{font-size:14px;margin:0 0 10px}.log-photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.log-photo-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px}.log-card-photo,.buddy-card-photo{width:100%;height:130px;object-fit:cover;border-radius:8px;margin-top:10px}";
 document.head.append(sidebarDotStyle);
 
 document.querySelectorAll(".sidebar").forEach((sidebar) => {
@@ -199,6 +199,7 @@ if (title === "로그 작성 - 3단계") {
   const error = document.querySelector("#log-details-error");
   const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo", "visibility"];
   const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
+  let draftPhotos = Array.isArray(saved.photos) ? saved.photos : [];
   const equipmentInput = document.querySelector("#equipment");
   const equipmentSelect = document.createElement("select");
   equipmentSelect.id = "equipment";
@@ -245,6 +246,34 @@ if (title === "로그 작성 - 3단계") {
   const friends = getFriends();
   const savedBuddies = Array.isArray(saved.buddyUserIds) ? saved.buddyUserIds : [];
   friendList.innerHTML = friends.map((friend) => `<label class="buddy-option"><input type="checkbox" name="buddy" value="${friend.id}" ${savedBuddies.includes(friend.id) ? "checked" : ""}><span>${friend.name}<small>${friend.email}</small></span></label>`).join("");
+  const photoField = document.createElement("div");
+  photoField.className = "field wide";
+  photoField.innerHTML = '<label for="log-photos">다이빙 사진 <span class="helper">(선택)</span></label><div class="photo-picker"><input id="log-photos" type="file" accept="image/*" multiple><p class="helper">사진이 없으면 선택하지 않고 넘어가도 됩니다.</p><div id="log-photo-preview" class="photo-preview-list"></div></div>';
+  document.querySelector("#memo").closest(".field").before(photoField);
+  const photoInput = document.querySelector("#log-photos");
+  const photoPreview = document.querySelector("#log-photo-preview");
+
+  function renderDraftPhotos() {
+    photoPreview.innerHTML = draftPhotos.map((photo, index) => `<div class="photo-preview"><img src="${photo.dataUrl}" alt="${photo.name}"><button type="button" class="photo-remove" data-photo-index="${index}" aria-label="사진 제거">×</button></div>`).join("");
+    photoPreview.querySelectorAll("[data-photo-index]").forEach((button) => button.addEventListener("click", () => {
+      draftPhotos.splice(Number(button.dataset.photoIndex), 1);
+      renderDraftPhotos();
+    }));
+  }
+
+  photoInput.addEventListener("change", async () => {
+    const selectedPhotos = [...photoInput.files];
+    const loadedPhotos = await Promise.all(selectedPhotos.map((file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve({ name: file.name, type: file.type, dataUrl: reader.result }));
+      reader.addEventListener("error", reject);
+      reader.readAsDataURL(file);
+    })));
+    draftPhotos = [...draftPhotos, ...loadedPhotos];
+    photoInput.value = "";
+    renderDraftPhotos();
+  });
+  renderDraftPhotos();
   makeClickable(document.querySelector("#log-step3-back"), () => goTo("4-로그작성-2단계.html"));
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -255,7 +284,13 @@ if (title === "로그 작성 - 3단계") {
     const draft = Object.fromEntries(ids.map((id) => [id, document.querySelector(`#${id}`).value]));
     draft.buddyUserIds = [...document.querySelectorAll('input[name="buddy"]:checked')].map((input) => input.value);
     draft.buddyNames = friends.filter((friend) => draft.buddyUserIds.includes(friend.id)).map((friend) => friend.name);
-    sessionStorage.setItem("gani-log-draft", JSON.stringify(draft));
+    draft.photos = draftPhotos;
+    try {
+      sessionStorage.setItem("gani-log-draft", JSON.stringify(draft));
+    } catch {
+      error.textContent = "사진 용량이 커서 임시 저장할 수 없습니다. 사진 수를 줄이거나 더 작은 사진을 선택해 주세요.";
+      return;
+    }
     goTo("11-로그작성-4단계.html");
   });
 }
@@ -267,6 +302,9 @@ if (title === "로그 작성 - 4단계") {
   summary.innerHTML = labels.map(([key, label, unit]) => `<div class="row"><span>${label}</span><span>${draft[key] ? `${draft[key]}${unit ? ` ${unit}` : ""}` : "입력 안 함"}</span></div>`).join("");
   const visibilityNames = { private: "나만 보기", friends: "친구 공개", public: "전체 공개" };
   summary.insertAdjacentHTML("beforeend", `<div class="row"><span>함께한 버디</span><span>${draft.buddyNames?.join(", ") || "선택 안 함"}</span></div><div class="row"><span>공개 범위</span><span>${visibilityNames[draft.visibility] || "나만 보기"}</span></div>`);
+  if (Array.isArray(draft.photos) && draft.photos.length) {
+    summary.insertAdjacentHTML("afterend", `<section class="card log-photo-section"><h2>다이빙 사진 · ${draft.photos.length}장</h2><div class="log-photo-grid">${draft.photos.map((photo) => `<img src="${photo.dataUrl}" alt="${photo.name}">`).join("")}</div></section>`);
+  }
   const ready = document.querySelector("#analysis-ready");
   if (!draft["tank-volume"] || !draft["start-pressure"] || !draft["end-pressure"]) {
     ready.textContent = "SAC·RMV 계산에 필요한 탱크 용량 또는 압력 정보가 부족합니다.";
@@ -280,7 +318,14 @@ if (title === "로그 작성 - 4단계") {
     button.textContent = "저장 중…";
     const logs = JSON.parse(localStorage.getItem("gani-log-records") || "[]");
     logs.push({ id: `log-${Date.now()}`, ownerId: currentUser.id, ownerName: currentUser.name, ...draft, visibility: draft.visibility || "private", createdAt: new Date().toISOString() });
-    localStorage.setItem("gani-log-records", JSON.stringify(logs));
+    try {
+      localStorage.setItem("gani-log-records", JSON.stringify(logs));
+    } catch {
+      button.disabled = false;
+      button.textContent = "로그 저장";
+      document.querySelector("#save-log-message").textContent = "사진 용량이 커서 저장하지 못했습니다. 이전 단계에서 사진 수를 줄여 주세요.";
+      return;
+    }
     sessionStorage.removeItem("gani-log-draft");
     document.querySelector("#save-log-message").textContent = "로그를 저장했습니다. 대시보드로 이동합니다.";
     setTimeout(() => goTo("5-대시보드.html"), 700);
@@ -570,7 +615,7 @@ if (title === "친구 · 공유") {
       { ownerName: "이준호", point: "강원도 문암", visibility: "public", createdAt: "2026-08-12T10:00:00+09:00", buddyNames: [] },
     ];
     const names = { friends: "친구 공개", public: "전체 공개" };
-    feedList.innerHTML = [...ownShared, ...examples].map((log) => `<article class="log-card"><span class="scope ${log.visibility}">${names[log.visibility]}</span><h3>${log.point || "새 다이빙 로그"}</h3><p>${log.ownerName || currentUser.name} · ${new Date(log.createdAt).toLocaleDateString("ko-KR")}</p>${log.buddyNames?.length ? `<p>함께한 버디: ${log.buddyNames.join(", ")}</p>` : ""}</article>`).join("");
+    feedList.innerHTML = [...ownShared, ...examples].map((log) => `<article class="log-card"><span class="scope ${log.visibility}">${names[log.visibility]}</span>${log.photos?.[0] ? `<img class="log-card-photo" src="${log.photos[0].dataUrl}" alt="${log.photos[0].name}">` : ""}<h3>${log.point || "새 다이빙 로그"}</h3><p>${log.ownerName || currentUser.name} · ${new Date(log.createdAt).toLocaleDateString("ko-KR")}</p>${log.buddyNames?.length ? `<p>함께한 버디: ${log.buddyNames.join(", ")}</p>` : ""}</article>`).join("");
   }
 
   form.addEventListener("submit", (event) => {
@@ -605,7 +650,7 @@ if (title === "버디 로그") {
   function renderBuddyLogs() {
     const selected = filter.value;
     const visibleLogs = selected === "all" ? logs : logs.filter((log) => log.visibility === selected);
-    feedList.innerHTML = visibleLogs.length ? visibleLogs.map((log) => `<article class="buddy-card"><div class="card-head"><span class="avatar">${(log.ownerName || currentUser.name).slice(0, 1)}</span><div><strong>${log.ownerName || currentUser.name}</strong><small>${new Date(log.createdAt).toLocaleDateString("ko-KR")}</small></div><span class="scope ${log.visibility}">${visibilityNames[log.visibility]}</span></div><h2>${log.point || "새 다이빙 로그"}</h2><p>${log.buddyNames?.length ? `함께한 버디: ${log.buddyNames.join(", ")}` : "등록된 버디 없음"}</p></article>`).join("") : '<p class="empty">조건에 맞는 버디 로그가 없습니다.</p>';
+    feedList.innerHTML = visibleLogs.length ? visibleLogs.map((log) => `<article class="buddy-card"><div class="card-head"><span class="avatar">${(log.ownerName || currentUser.name).slice(0, 1)}</span><div><strong>${log.ownerName || currentUser.name}</strong><small>${new Date(log.createdAt).toLocaleDateString("ko-KR")}</small></div><span class="scope ${log.visibility}">${visibilityNames[log.visibility]}</span></div>${log.photos?.[0] ? `<img class="buddy-card-photo" src="${log.photos[0].dataUrl}" alt="${log.photos[0].name}">` : ""}<h2>${log.point || "새 다이빙 로그"}</h2><p>${log.buddyNames?.length ? `함께한 버디: ${log.buddyNames.join(", ")}` : "등록된 버디 없음"}</p></article>`).join("") : '<p class="empty">조건에 맞는 버디 로그가 없습니다.</p>';
   }
 
   filter.addEventListener("change", renderBuddyLogs);
