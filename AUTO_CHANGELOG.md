@@ -4,6 +4,19 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-18 21:09:24
+
+### 변경 요약
+
+- 일반 정보 수정 폼에서 다이빙 자격 입력란을 제거했습니다.
+- 정보 수정은 이름과 이메일만 다루고, 자격 정보는 자격증 이미지 등록 영역에서만 관리하도록 분리했습니다.
+- 이름이나 이메일을 수정해도 저장된 자격 정보가 유지되도록 했습니다.
+
+### 변경된 파일
+
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
 ## 2026-08-18 21:07:44
 
 ### 변경 요약
@@ -477,3 +490,51 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: d8d25257fc7d93a2092e8f0b72b27015f0baa65f7a2789233c1d2b4655b415af -->
+
+## 2026-08-18 21:09:42
+
+### 변경 요약
+
+- 14개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ files/1-로그인.html          |  2 +-
+ files/10-로그작성-3단계.html |  2 +-
+ files/11-로그작성-4단계.html |  2 +-
+ files/12-친구공유.html       |  2 +-
+ files/13-버디로그.html       |  2 +-
+ files/2-회원가입.html        |  2 +-
+ files/3-연동시작.html        |  2 +-
+ files/4-로그작성-2단계.html  |  2 +-
+ files/5-대시보드.html        |  2 +-
+ files/6-로그목록.html        |  2 +-
+ files/7-로그상세.html        |  2 +-
+ files/8-장비관리.html        |  2 +-
+ files/9-내정보.html          | 13 +------------
+ files/prototype.js           |  7 +------
+ 14 files changed, 14 insertions(+), 30 deletions(-)
+```
+
+</details>
+
+<!-- change-id: edf624d6d28bed6738ce3f94ad62850b3e3825acff99fdc44e558718a7e265f5 -->

@@ -502,9 +502,6 @@ if (title === "내 정보") {
   const cancelButton = document.querySelector("#cancel-profile-button");
   const nameInput = document.querySelector("#profile-name-input");
   const emailInput = document.querySelector("#profile-email-input");
-  const certificationInput = document.querySelector(
-    "#profile-certification-input",
-  );
   const nameText = document.querySelector("#profile-name");
   const emailText = document.querySelector("#profile-email");
   const certificationText = document.querySelector("#profile-certification");
@@ -548,7 +545,6 @@ if (title === "내 정보") {
   function fillForm(profile) {
     nameInput.value = profile.name;
     emailInput.value = profile.email;
-    certificationInput.value = profile.certification;
     errorText.textContent = "";
   }
 
@@ -633,7 +629,6 @@ if (title === "내 정보") {
 
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
-    const certification = certificationInput.value.trim();
 
     if (!name) {
       errorText.textContent = "이름을 입력해 주세요.";
@@ -647,7 +642,7 @@ if (title === "내 정보") {
       return;
     }
 
-    profile = { ...profile, name, email, certification };
+    profile = { ...profile, name, email };
     localStorage.setItem(storageKey, JSON.stringify(profile));
     renderProfile(profile);
     form.classList.remove("open");
