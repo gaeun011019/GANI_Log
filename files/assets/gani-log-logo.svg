@@ -1,0 +1,10 @@
+<svg width="136" height="34" viewBox="0 0 136 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="32" height="32" rx="11" fill="#103F68"/>
+  <path d="M8.8 15.2C8.8 13.7 10 12.5 11.5 12.5H22.5C24 12.5 25.2 13.7 25.2 15.2V18.1C25.2 20.3 23.4 22.1 21.2 22.1H19.7C18.6 22.1 17.7 21.5 17 20.7C16.3 21.5 15.4 22.1 14.3 22.1H12.8C10.6 22.1 8.8 20.3 8.8 18.1V15.2Z" fill="#E7F4FF"/>
+  <path d="M9 16H25" stroke="#66B7F1" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M17 20.6V24.1C17 25.2 17.9 26.1 19 26.1H20.8" stroke="#E7F4FF" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="27.1" cy="8.5" r="2.1" fill="#74C8F5"/>
+  <circle cx="23.2" cy="5.8" r="1.2" fill="#A7DCF8"/>
+  <text x="42" y="22.8" fill="#25374A" font-family="Pretendard, Noto Sans KR, sans-serif" font-size="17" font-weight="700" letter-spacing="-0.35">GANI</text>
+  <text x="86.5" y="22.8" fill="#4188BB" font-family="Pretendard, Noto Sans KR, sans-serif" font-size="17" font-weight="500" letter-spacing="-0.35">Log</text>
+</svg>

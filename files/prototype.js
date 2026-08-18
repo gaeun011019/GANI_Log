@@ -54,8 +54,15 @@ function makeClickable(element, action) {
 }
 
 const sidebarDotStyle = document.createElement("style");
-sidebarDotStyle.textContent = ".sidelink .dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:currentColor;display:inline-block}";
+sidebarDotStyle.textContent = ".sidelink .dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:currentColor;display:inline-block}.gani-logo{height:34px!important;margin:0 0 20px!important;display:flex;align-items:center}.gani-logo img{display:block;width:136px;height:34px}";
 document.head.append(sidebarDotStyle);
+
+document.querySelectorAll(".sidebar").forEach((sidebar) => {
+  const brand = sidebar.querySelector(".logo") || sidebar.querySelector("p");
+  if (!brand) return;
+  brand.classList.add("gani-logo");
+  brand.innerHTML = '<img src="assets/gani-log-logo.svg" alt="GANI Log">';
+});
 
 document.querySelectorAll(".sidelink").forEach((link) => {
   const menuName = link.textContent.trim().replace(/^●\s*/, "");
