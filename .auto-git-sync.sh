@@ -70,28 +70,6 @@ if /usr/bin/git diff --cached --quiet; then
 fi
 
 commit_time=$(/bin/date '+%Y-%m-%d %H:%M:%S')
-change_log="$repo_dir/AUTO_CHANGELOG.md"
-change_status=$(/usr/bin/git diff --cached --name-status -- . ':(exclude)AUTO_CHANGELOG.md')
-change_stat=$(/usr/bin/git diff --cached --stat -- . ':(exclude)AUTO_CHANGELOG.md')
-
-{
-  /bin/echo
-  /bin/echo "## $commit_time"
-  /bin/echo
-  /bin/echo '```text'
-  if [[ -n "$change_status" ]]; then
-    /bin/echo "$change_status"
-  else
-    /bin/echo "No file-status summary available"
-  fi
-  /bin/echo
-  if [[ -n "$change_stat" ]]; then
-    /bin/echo "$change_stat"
-  fi
-  /bin/echo '```'
-} >> "$change_log"
-
-/usr/bin/git add AUTO_CHANGELOG.md
 
 if ! /usr/bin/git commit -m "Auto sync: $commit_time" >> "$log_file" 2>&1; then
   log "Failed: commit"

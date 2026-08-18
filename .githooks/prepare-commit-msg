@@ -1,0 +1,62 @@
+#!/bin/zsh
+
+set -u
+
+message_file="$1"
+commit_source="${2:-}"
+
+# 병합·재사용 커밋에는 같은 변경 기록을 다시 추가하지 않는다.
+if [[ "$commit_source" == "merge" || "$commit_source" == "commit" ]]; then
+  exit 0
+fi
+
+repo_dir=$(/usr/bin/git rev-parse --show-toplevel)
+change_log="$repo_dir/AUTO_CHANGELOG.md"
+
+if /usr/bin/git diff --cached --quiet -- . ':(exclude)AUTO_CHANGELOG.md'; then
+  exit 0
+fi
+
+timestamp=$(/bin/date '+%Y-%m-%d %H:%M:%S')
+subject=$(/usr/bin/sed -n '/^[^#]/ { p; q; }' "$message_file")
+[[ -n "$subject" ]] || subject="변경 내용 자동 저장"
+
+change_status=$(/usr/bin/git -c core.quotePath=false diff --cached --name-status -- . ':(exclude)AUTO_CHANGELOG.md')
+change_stat=$(/usr/bin/git -c core.quotePath=false diff --cached --stat -- . ':(exclude)AUTO_CHANGELOG.md')
+
+{
+  /bin/echo
+  /bin/echo "## $timestamp"
+  /bin/echo
+  /bin/echo "### 변경 요약"
+  /bin/echo
+  /bin/echo "- $subject"
+  /bin/echo
+  /bin/echo "### 변경된 파일"
+  /bin/echo
+  while IFS=$'\t' read -r file_status path extra_path; do
+    case "$file_status" in
+      A) label="추가" ;;
+      M) label="수정" ;;
+      D) label="삭제" ;;
+      R*) label="이름 변경" ;;
+      *) label="$file_status" ;;
+    esac
+    if [[ -n "${extra_path:-}" ]]; then
+      /bin/echo "- $label: \`$path\` → \`$extra_path\`"
+    else
+      /bin/echo "- $label: \`$path\`"
+    fi
+  done <<< "$change_status"
+  /bin/echo
+  /bin/echo "<details>"
+  /bin/echo "<summary>파일별 변경 규모 보기</summary>"
+  /bin/echo
+  /bin/echo '```text'
+  /bin/echo "$change_stat"
+  /bin/echo '```'
+  /bin/echo
+  /bin/echo "</details>"
+} >> "$change_log"
+
+/usr/bin/git add AUTO_CHANGELOG.md

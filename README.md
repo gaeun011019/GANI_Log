@@ -14,4 +14,4 @@
 
 ## 변경 기록
 
-자동 업로드된 변경 내역은 [`AUTO_CHANGELOG.md`](./AUTO_CHANGELOG.md)에서 확인할 수 있습니다. 코드의 실제 변경 내용은 GitHub 커밋의 diff에 기록됩니다.
+자동 업로드와 직접 저장한 커밋의 변경 내역은 [`AUTO_CHANGELOG.md`](./AUTO_CHANGELOG.md)에서 확인할 수 있습니다. 변경 요약과 수정된 파일이 자동으로 추가되며, 코드의 실제 변경 내용은 같은 GitHub 커밋의 diff에 기록됩니다.
