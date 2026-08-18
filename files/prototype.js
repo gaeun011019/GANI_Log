@@ -54,7 +54,8 @@ function makeClickable(element, action) {
 }
 
 document.querySelectorAll(".sidelink").forEach((link) => {
-  const destination = pageByMenu[link.textContent.trim()];
+  const menuName = link.textContent.trim().replace(/^●\s*/, "");
+  const destination = pageByMenu[menuName];
   if (destination) makeClickable(link, () => goTo(destination));
 });
 
