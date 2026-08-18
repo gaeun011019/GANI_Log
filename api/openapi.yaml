@@ -20,6 +20,8 @@ tags:
     description: 다이빙 기록 파일·이미지 가져오기
   - name: Dive Logs
     description: 다이빙 로그 작성과 조회
+  - name: Friends
+    description: 친구 관계와 버디 로그 공유
   - name: Equipment
     description: 개인·렌탈 장비 관리
   - name: Dashboard
@@ -379,6 +381,152 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  /feed:
+    get:
+      tags: [Friends]
+      operationId: listSharedDiveLogs
+      summary: 친구와 공개 로그 피드 조회
+      description: 수락된 친구가 friends 또는 public으로 공개한 로그와 전체 공개 로그를 조회합니다.
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: 열람 가능한 공유 로그 목록
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiveLogPage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /friends:
+    get:
+      tags: [Friends]
+      operationId: listFriends
+      summary: 친구 목록 조회
+      responses:
+        '200':
+          description: 수락된 친구 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /friends/{friendId}:
+    delete:
+      tags: [Friends]
+      operationId: deleteFriend
+      summary: 친구 삭제
+      parameters:
+        - $ref: '#/components/parameters/FriendId'
+      responses:
+        '204':
+          description: 친구 관계 삭제 완료
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /friend-requests:
+    get:
+      tags: [Friends]
+      operationId: listFriendRequests
+      summary: 받은 친구 요청 목록 조회
+      responses:
+        '200':
+          description: 대기 중인 친구 요청 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags: [Friends]
+      operationId: createFriendRequest
+      summary: 이메일로 친구 요청
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFriendRequest'
+      responses:
+        '201':
+          description: 생성된 친구 요청
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /friend-requests/{friendRequestId}/accept:
+    post:
+      tags: [Friends]
+      operationId: acceptFriendRequest
+      summary: 친구 요청 수락
+      parameters:
+        - $ref: '#/components/parameters/FriendRequestId'
+      responses:
+        '200':
+          description: 수락된 친구 관계
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /friend-requests/{friendRequestId}:
+    delete:
+      tags: [Friends]
+      operationId: rejectFriendRequest
+      summary: 친구 요청 거절 또는 보낸 요청 취소
+      parameters:
+        - $ref: '#/components/parameters/FriendRequestId'
+      responses:
+        '204':
+          description: 요청 삭제 완료
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /public/dive-logs/{diveLogId}:
+    get:
+      tags: [Dive Logs]
+      operationId: getPublicDiveLog
+      summary: 전체 공개 로그 조회
+      description: 공개 범위가 public인 로그만 로그인 없이 조회할 수 있습니다.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/DiveLogId'
+      responses:
+        '200':
+          description: 전체 공개 다이빙 로그
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiveLogDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
   /dive-logs/{diveLogId}:
     parameters:
       - $ref: '#/components/parameters/DiveLogId'
@@ -622,6 +770,20 @@ components:
         format: int64
     EquipmentId:
       name: equipmentId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    FriendId:
+      name: friendId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    FriendRequestId:
+      name: friendRequestId
       in: path
       required: true
       schema:
@@ -920,6 +1082,14 @@ components:
         memo:
           type: string
           nullable: true
+        visibility:
+          $ref: '#/components/schemas/LogVisibility'
+
+    LogVisibility:
+      type: string
+      enum: [private, friends, public]
+      default: private
+      description: 'private: 작성자만, friends: 수락된 친구만, public: 누구나 열람'
 
     GasMetricsInput:
       type: object
@@ -1089,6 +1259,13 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/DiveLogEquipmentInput'
+            buddyUserIds:
+              type: array
+              uniqueItems: true
+              description: 함께 다이빙한 친구의 사용자 ID 목록
+              items:
+                type: integer
+                format: int64
 
     DiveLogSummary:
       allOf:
@@ -1121,6 +1298,59 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/DiveLogEquipmentInput'
+            buddies:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublicUser'
+
+    PublicUser:
+      type: object
+      required: [id, displayName]
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        profileImageUrl:
+          type: string
+          format: uri
+          nullable: true
+
+    Friend:
+      allOf:
+        - $ref: '#/components/schemas/PublicUser'
+        - type: object
+          required: [friendsSince]
+          properties:
+            friendsSince:
+              type: string
+              format: date-time
+
+    CreateFriendRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+          description: 친구로 추가할 가입자의 로그인 이메일
+
+    FriendRequest:
+      type: object
+      required: [id, requester, status, createdAt]
+      properties:
+        id:
+          type: integer
+          format: int64
+        requester:
+          $ref: '#/components/schemas/PublicUser'
+        status:
+          type: string
+          enum: [pending]
+        createdAt:
+          type: string
+          format: date-time
 
     DiveLogPage:
       type: object
