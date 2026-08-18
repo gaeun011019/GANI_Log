@@ -56,7 +56,54 @@ if (title === "연동 시작") {
 
 if (title === "로그 작성 - 2단계") {
   makeClickable(buttonNamed("이전"), () => goTo("3-연동시작.html"));
-  makeClickable(buttonNamed("다음"), () => goTo("5-대시보드.html"));
+  makeClickable(buttonNamed("다음"), () => goTo("10-로그작성-3단계.html"));
+}
+
+if (title === "로그 작성 - 3단계") {
+  const form = document.querySelector("#log-details-form");
+  const error = document.querySelector("#log-details-error");
+  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo"];
+  const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
+  ids.forEach((id) => {
+    const field = document.querySelector(`#${id}`);
+    if (field && saved[id] != null) field.value = saved[id];
+  });
+  makeClickable(document.querySelector("#log-step3-back"), () => goTo("4-로그작성-2단계.html"));
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const start = Number(document.querySelector("#start-pressure").value);
+    const end = Number(document.querySelector("#end-pressure").value);
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (end >= start) { error.textContent = "종료 압력은 시작 압력보다 작아야 합니다."; return; }
+    const draft = Object.fromEntries(ids.map((id) => [id, document.querySelector(`#${id}`).value]));
+    sessionStorage.setItem("gani-log-draft", JSON.stringify(draft));
+    goTo("11-로그작성-4단계.html");
+  });
+}
+
+if (title === "로그 작성 - 4단계") {
+  const draft = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
+  const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["water", "수역", ""], ["current", "조류", ""]];
+  const summary = document.querySelector("#log-summary");
+  summary.innerHTML = labels.map(([key, label, unit]) => `<div class="row"><span>${label}</span><span>${draft[key] ? `${draft[key]}${unit ? ` ${unit}` : ""}` : "입력 안 함"}</span></div>`).join("");
+  const ready = document.querySelector("#analysis-ready");
+  if (!draft["tank-volume"] || !draft["start-pressure"] || !draft["end-pressure"]) {
+    ready.textContent = "SAC·RMV 계산에 필요한 탱크 용량 또는 압력 정보가 부족합니다.";
+    ready.style.background = "#faeeda";
+    ready.style.color = "#633806";
+  }
+  makeClickable(document.querySelector("#log-step4-back"), () => goTo("10-로그작성-3단계.html"));
+  document.querySelector("#save-log")?.addEventListener("click", (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    button.textContent = "저장 중…";
+    const logs = JSON.parse(localStorage.getItem("gani-log-records") || "[]");
+    logs.push({ ...draft, createdAt: new Date().toISOString() });
+    localStorage.setItem("gani-log-records", JSON.stringify(logs));
+    sessionStorage.removeItem("gani-log-draft");
+    document.querySelector("#save-log-message").textContent = "로그를 저장했습니다. 대시보드로 이동합니다.";
+    setTimeout(() => goTo("5-대시보드.html"), 700);
+  });
 }
 
 if (title === "대시보드") {
