@@ -71,8 +71,8 @@ if (title === "로그 작성 - 3단계") {
   const defaultEquipment = [
     { name: "3mm 웻슈트", type: "슈트" },
     { name: "Aqualung BCD", type: "BCD" },
-    { name: "알루미늄 탱크 12L", type: "탱크" },
-    { name: "웨이트 벨트 6kg", type: "웨이트" },
+    { name: "프레임리스 마스크", type: "마스크" },
+    { name: "오픈힐 핀", type: "핀" },
   ];
   try {
     const registeredEquipment = JSON.parse(localStorage.getItem("gani-log-equipment") || "[]");
