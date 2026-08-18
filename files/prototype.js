@@ -52,7 +52,15 @@ if (title === "회원가입") {
 if (title === "연동 시작") {
   const syncOptions = [...document.querySelectorAll(".sync-option")];
   const syncRadios = [...document.querySelectorAll(".sync-radio")];
+  const uploadPanel = document.querySelector("#log-upload-panel");
+  const fileInput = document.querySelector("#log-file-input");
+  const fileInfo = document.querySelector("#log-file-info");
+  const imagePreview = document.querySelector("#log-image-preview");
+  const uploadError = document.querySelector("#log-upload-error");
+  const nextButton = document.querySelector("#sync-next-button");
   const savedMethod = sessionStorage.getItem("gani-log-sync-method") || "bluetooth";
+  let selectedFile = null;
+  let previewUrl = null;
 
   function selectSyncMethod(method) {
     syncOptions.forEach((option) => {
@@ -61,15 +69,52 @@ if (title === "연동 시작") {
       option.setAttribute("aria-checked", String(selected));
       option.querySelector(".sync-radio").checked = selected;
     });
+    uploadPanel.classList.toggle("open", method === "file");
+    uploadError.textContent = "";
     sessionStorage.setItem("gani-log-sync-method", method);
   }
 
   syncRadios.forEach((radio) => {
     radio.addEventListener("change", () => selectSyncMethod(radio.value));
   });
+  fileInput.addEventListener("change", () => {
+    selectedFile = fileInput.files[0] || null;
+    uploadError.textContent = "";
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    imagePreview.classList.remove("visible");
+    imagePreview.removeAttribute("src");
+    if (!selectedFile) {
+      fileInfo.textContent = "FIT, CSV, JPG, PNG, WEBP, HEIC 파일을 선택할 수 있습니다.";
+      return;
+    }
+    const size = selectedFile.size < 1024 * 1024
+      ? `${Math.ceil(selectedFile.size / 1024)} KB`
+      : `${(selectedFile.size / 1024 / 1024).toFixed(1)} MB`;
+    fileInfo.textContent = `${selectedFile.name} · ${size}`;
+    if (selectedFile.type.startsWith("image/")) {
+      previewUrl = URL.createObjectURL(selectedFile);
+      imagePreview.src = previewUrl;
+      imagePreview.classList.add("visible");
+    }
+  });
   selectSyncMethod(savedMethod);
   makeClickable(buttonNamed("취소"), () => goTo("5-대시보드.html"));
-  makeClickable(buttonNamed("다음"), () => goTo("4-로그작성-2단계.html"));
+  nextButton.addEventListener("click", () => {
+    const method = document.querySelector(".sync-radio:checked").value;
+    if (method === "file" && !selectedFile) {
+      uploadError.textContent = "업로드할 로그 파일이나 이미지를 선택해 주세요.";
+      fileInput.focus();
+      return;
+    }
+    if (selectedFile) {
+      sessionStorage.setItem("gani-log-upload", JSON.stringify({
+        name: selectedFile.name,
+        type: selectedFile.type || "application/octet-stream",
+        size: selectedFile.size,
+      }));
+    }
+    goTo("4-로그작성-2단계.html");
+  });
 }
 
 if (title === "로그 작성 - 2단계") {
