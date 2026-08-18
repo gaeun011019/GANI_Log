@@ -238,6 +238,9 @@ if (title === "로그 작성 - 3단계") {
   if (saved["tank-volume"] == null) {
     document.querySelector("#tank-volume").value = "11";
   }
+  if (saved["start-pressure"] == null) {
+    document.querySelector("#start-pressure").value = "200";
+  }
   ids.forEach((id) => {
     const field = document.querySelector(`#${id}`);
     if (field && saved[id] != null) field.value = saved[id];

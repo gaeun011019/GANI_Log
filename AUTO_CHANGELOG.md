@@ -4,6 +4,17 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-18 20:58:54
+
+### 변경 요약
+
+- 로그 작성 3단계의 시작 압력 기본값을 일반적으로 사용하는 `200 bar`로 설정했습니다.
+- 사용자가 이전에 입력한 시작 압력이 있으면 기본값으로 덮어쓰지 않고 해당 값을 유지합니다.
+
+### 변경된 파일
+
+- 수정: `files/prototype.js`
+
 ## 2026-08-18 20:48:53
 
 ### 변경 요약
@@ -193,3 +204,51 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: 885fc0465b0975ad0461b6125b17da516eff20593084a2fbe91f221f51c845b1 -->
+
+## 2026-08-18 20:59:11
+
+### 변경 요약
+
+- 14개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ files/1-로그인.html          | 2 +-
+ files/10-로그작성-3단계.html | 2 +-
+ files/11-로그작성-4단계.html | 2 +-
+ files/12-친구공유.html       | 2 +-
+ files/13-버디로그.html       | 2 +-
+ files/2-회원가입.html        | 2 +-
+ files/3-연동시작.html        | 2 +-
+ files/4-로그작성-2단계.html  | 2 +-
+ files/5-대시보드.html        | 2 +-
+ files/6-로그목록.html        | 2 +-
+ files/7-로그상세.html        | 2 +-
+ files/8-장비관리.html        | 2 +-
+ files/9-내정보.html          | 2 +-
+ files/prototype.js           | 3 +++
+ 14 files changed, 16 insertions(+), 13 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 43ed3e70afa1a457d6522847788e12ab66ed2dccd69508d80b15ad0754a17b86 -->
