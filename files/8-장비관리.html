@@ -118,7 +118,7 @@
       }
       .equipment-form {
         display: none;
-        max-width: 560px;
+        max-width: 760px;
         margin-bottom: 20px;
         padding: 18px;
         border: 1px solid #e4e1d6;
@@ -130,7 +130,7 @@
       }
       .form-grid {
         display: grid;
-        grid-template-columns: 1fr 180px;
+        grid-template-columns: 1fr 180px 200px;
         gap: 12px;
       }
       .form-actions {
@@ -198,7 +198,25 @@
                 <option value="BCD">BCD</option>
                 <option value="탱크">탱크</option>
                 <option value="웨이트">웨이트</option>
+                <option value="호흡기">호흡기</option>
+                <option value="핀">핀</option>
+                <option value="마스크">마스크</option>
+                <option value="다이브 컴퓨터">다이브 컴퓨터</option>
                 <option value="기타">기타</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="equipment-subtype-input"
+                >세부 종류</label
+              >
+              <select
+                id="equipment-subtype-input"
+                class="input"
+                name="subtype"
+                required
+                disabled
+              >
+                <option value="">장비 종류를 먼저 선택하세요</option>
               </select>
             </div>
           </div>

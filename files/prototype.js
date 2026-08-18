@@ -75,6 +75,17 @@ if (title === "로그 목록") {
 
 if (title === "장비 관리") {
   const storageKey = "gani-log-equipment";
+  const subtypesByType = {
+    슈트: ["웻슈트", "드라이슈트"],
+    BCD: ["조끼형", "백 인플레이트형", "백플레이트·윙형"],
+    탱크: ["알루미늄", "스틸"],
+    웨이트: ["웨이트 벨트", "통합형 웨이트", "트림 웨이트"],
+    호흡기: ["레귤레이터 세트", "옥토퍼스"],
+    핀: ["오픈힐", "풀풋"],
+    마스크: ["프레임형", "프레임리스형"],
+    "다이브 컴퓨터": ["손목형", "콘솔형"],
+    기타: ["기타"],
+  };
   const form = document.querySelector("#equipment-form");
   const openButton = document.querySelector("#open-equipment-form-button");
   const cancelButton = document.querySelector("#cancel-equipment-button");
@@ -82,6 +93,7 @@ if (title === "장비 관리") {
   const grid = document.querySelector("#equipment-grid");
   const nameInput = document.querySelector("#equipment-name-input");
   const typeInput = document.querySelector("#equipment-type-input");
+  const subtypeInput = document.querySelector("#equipment-subtype-input");
   const errorText = document.querySelector("#equipment-form-error");
 
   function readEquipment() {
@@ -113,7 +125,9 @@ if (title === "장비 관리") {
 
     const type = document.createElement("p");
     type.style.cssText = "font-size:12px;color:#5f5e5a";
-    type.textContent = `종류: ${equipment.type}`;
+    type.textContent = equipment.subtype
+      ? `종류: ${equipment.type} · ${equipment.subtype}`
+      : `종류: ${equipment.type}`;
 
     card.append(icon, name, type);
     grid.insertBefore(card, addCard);
@@ -121,6 +135,27 @@ if (title === "장비 관리") {
 
   let equipmentList = readEquipment();
   equipmentList.forEach(createEquipmentCard);
+
+  function updateSubtypeOptions() {
+    const options = subtypesByType[typeInput.value] || [];
+    subtypeInput.replaceChildren();
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = options.length
+      ? "선택하세요"
+      : "장비 종류를 먼저 선택하세요";
+    subtypeInput.append(placeholder);
+
+    options.forEach((subtype) => {
+      const option = document.createElement("option");
+      option.value = subtype;
+      option.textContent = subtype;
+      subtypeInput.append(option);
+    });
+
+    subtypeInput.disabled = options.length === 0;
+  }
 
   function openForm() {
     form.classList.add("open");
@@ -133,12 +168,14 @@ if (title === "장비 관리") {
     form.classList.remove("open");
     openButton.hidden = false;
     form.reset();
+    updateSubtypeOptions();
     errorText.textContent = "";
   }
 
   makeClickable(openButton, openForm);
   makeClickable(addCard, openForm);
   cancelButton.addEventListener("click", closeForm);
+  typeInput.addEventListener("change", updateSubtypeOptions);
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -146,6 +183,7 @@ if (title === "장비 관리") {
     const equipment = {
       name: nameInput.value.trim(),
       type: typeInput.value,
+      subtype: subtypeInput.value,
     };
 
     if (!equipment.name) {
@@ -157,6 +195,12 @@ if (title === "장비 관리") {
     if (!equipment.type) {
       errorText.textContent = "장비 종류를 선택해 주세요.";
       typeInput.focus();
+      return;
+    }
+
+    if (!equipment.subtype) {
+      errorText.textContent = "세부 종류를 선택해 주세요.";
+      subtypeInput.focus();
       return;
     }
 
