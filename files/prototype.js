@@ -64,6 +64,25 @@ if (title === "로그 작성 - 3단계") {
   const error = document.querySelector("#log-details-error");
   const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo"];
   const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
+  const equipmentInput = document.querySelector("#equipment");
+  const equipmentSelect = document.createElement("select");
+  equipmentSelect.id = "equipment";
+  equipmentSelect.innerHTML = '<option value="">선택 안 함</option><option value="렌탈 장비">렌탈 장비</option>';
+  try {
+    const registeredEquipment = JSON.parse(localStorage.getItem("gani-log-equipment") || "[]");
+    if (Array.isArray(registeredEquipment)) {
+      registeredEquipment.forEach((equipment) => {
+        const option = document.createElement("option");
+        const details = [equipment.type, equipment.subtype].filter(Boolean).join(" · ");
+        option.value = equipment.name;
+        option.textContent = details ? `${equipment.name} (${details})` : equipment.name;
+        equipmentSelect.append(option);
+      });
+    }
+  } catch {
+    // 저장된 장비 목록이 손상된 경우에도 렌탈 장비는 선택할 수 있다.
+  }
+  equipmentInput.replaceWith(equipmentSelect);
   if (saved["tank-volume"] == null) {
     document.querySelector("#tank-volume").value = "11";
   }
