@@ -64,6 +64,9 @@ if (title === "로그 작성 - 3단계") {
   const error = document.querySelector("#log-details-error");
   const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo"];
   const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
+  if (saved["tank-volume"] == null) {
+    document.querySelector("#tank-volume").value = "11";
+  }
   ids.forEach((id) => {
     const field = document.querySelector(`#${id}`);
     if (field && saved[id] != null) field.value = saved[id];
