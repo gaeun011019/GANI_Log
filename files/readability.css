@@ -1,0 +1,230 @@
+:root {
+  --bg: #f5f4ef;
+  --surface: #ffffff;
+  --surface-soft: #faf9f6;
+  --text: #252522;
+  --text-muted: #66655f;
+  --border: #dedbd0;
+  --accent: #1769aa;
+  --accent-soft: #e8f2fb;
+  --shadow: 0 10px 30px rgba(44, 44, 42, 0.07);
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.page {
+  width: min(100%, 1440px) !important;
+  min-height: 100vh !important;
+  background: var(--bg) !important;
+}
+
+.card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  min-height: 44px;
+  padding-inline: 18px;
+  border-color: var(--border);
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.btn:hover {
+  border-color: #aaa79d;
+  background: var(--surface-soft);
+}
+
+.btn-primary {
+  background: var(--text) !important;
+}
+
+.btn-primary:hover {
+  background: #11110f !important;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible,
+.input:focus-visible {
+  outline: 3px solid rgba(55, 138, 221, 0.28);
+  outline-offset: 2px;
+}
+
+.input {
+  min-height: 44px;
+  border-color: var(--border);
+  font-size: 14px;
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.label {
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.sidebar {
+  width: 220px;
+  padding: 28px 18px;
+  border-right: 1px solid var(--border);
+  background: var(--surface-soft);
+}
+
+.sidelink {
+  gap: 10px;
+  padding: 11px 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.sidelink.active {
+  color: #0b568f;
+  background: var(--accent-soft);
+  font-weight: 700;
+}
+
+.content-area {
+  margin-left: 220px;
+  min-height: 100vh;
+  padding: 40px 48px;
+}
+
+[style*="font-size:11px"] {
+  font-size: 12px !important;
+}
+
+[style*="font-size:12px"] {
+  font-size: 13px !important;
+}
+
+[style*="font-size:13px"] {
+  font-size: 14px !important;
+}
+
+p[style*="font-size:18px"],
+p[style*="font-size:20px"] {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em;
+}
+
+table {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+th,
+td {
+  padding: 14px 12px !important;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background: var(--surface-soft);
+}
+
+svg {
+  overflow: visible;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar > div {
+    flex-flow: row wrap !important;
+  }
+
+  .content-area {
+    margin-left: 0;
+    min-height: auto;
+    padding: 32px 24px;
+  }
+
+  [style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  [style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  [style*="grid-template-columns:repeat(2,280px)"],
+  [style*="grid-template-columns:1.3fr 1fr"],
+  [style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .page > div[style*="min-height:800px"] {
+    min-height: 100vh !important;
+    padding: 20px;
+  }
+
+  .page > div > .card[style*="width:340px"],
+  .page > div > .card[style*="width:460px"] {
+    width: 100% !important;
+    padding: 24px !important;
+  }
+
+  .content-area {
+    padding: 24px 16px;
+  }
+
+  .content-area > div[style*="justify-content:space-between"] {
+    align-items: stretch !important;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  [style*="grid-template-columns:repeat(4"],
+  [style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
