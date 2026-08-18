@@ -74,14 +74,97 @@ if (title === "로그 목록") {
 }
 
 if (title === "장비 관리") {
-  const addButton = buttonNamed("+ 장비 등록");
-  const addCard = [...document.querySelectorAll(".content-area div")].find(
-    (element) => element.textContent.trim() === "+ 장비 추가",
-  );
-  const showPrototypeNotice = () =>
-    window.alert("장비 등록 기능은 아직 화면 시안 단계입니다.");
-  makeClickable(addButton, showPrototypeNotice);
-  makeClickable(addCard, showPrototypeNotice);
+  const storageKey = "gani-log-equipment";
+  const form = document.querySelector("#equipment-form");
+  const openButton = document.querySelector("#open-equipment-form-button");
+  const cancelButton = document.querySelector("#cancel-equipment-button");
+  const addCard = document.querySelector("#equipment-add-card");
+  const grid = document.querySelector("#equipment-grid");
+  const nameInput = document.querySelector("#equipment-name-input");
+  const typeInput = document.querySelector("#equipment-type-input");
+  const errorText = document.querySelector("#equipment-form-error");
+
+  function readEquipment() {
+    try {
+      const equipment = JSON.parse(localStorage.getItem(storageKey));
+      return Array.isArray(equipment) ? equipment : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function createEquipmentCard(equipment) {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.padding = "16px";
+
+    const icon = document.createElement("div");
+    Object.assign(icon.style, {
+      width: "20px",
+      height: "20px",
+      borderRadius: "50%",
+      border: "1.5px solid #378add",
+      marginBottom: "8px",
+    });
+
+    const name = document.createElement("p");
+    name.style.cssText = "font-size:13px;font-weight:500;margin-bottom:2px";
+    name.textContent = equipment.name;
+
+    const type = document.createElement("p");
+    type.style.cssText = "font-size:12px;color:#5f5e5a";
+    type.textContent = `종류: ${equipment.type}`;
+
+    card.append(icon, name, type);
+    grid.insertBefore(card, addCard);
+  }
+
+  let equipmentList = readEquipment();
+  equipmentList.forEach(createEquipmentCard);
+
+  function openForm() {
+    form.classList.add("open");
+    openButton.hidden = true;
+    errorText.textContent = "";
+    nameInput.focus();
+  }
+
+  function closeForm() {
+    form.classList.remove("open");
+    openButton.hidden = false;
+    form.reset();
+    errorText.textContent = "";
+  }
+
+  makeClickable(openButton, openForm);
+  makeClickable(addCard, openForm);
+  cancelButton.addEventListener("click", closeForm);
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const equipment = {
+      name: nameInput.value.trim(),
+      type: typeInput.value,
+    };
+
+    if (!equipment.name) {
+      errorText.textContent = "장비 이름을 입력해 주세요.";
+      nameInput.focus();
+      return;
+    }
+
+    if (!equipment.type) {
+      errorText.textContent = "장비 종류를 선택해 주세요.";
+      typeInput.focus();
+      return;
+    }
+
+    equipmentList = [...equipmentList, equipment];
+    localStorage.setItem(storageKey, JSON.stringify(equipmentList));
+    createEquipmentCard(equipment);
+    closeForm();
+  });
 }
 
 if (title === "내 정보") {
