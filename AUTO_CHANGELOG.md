@@ -4,6 +4,18 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-18 20:59:38
+
+### 변경 요약
+
+- 로그 작성 3단계에서 등록된 친구뿐 아니라 버디 이름을 직접 입력할 수 있게 했습니다.
+- 여러 버디는 쉼표로 구분해 입력하며, 친구 선택값과 직접 입력한 이름을 합쳐 중복 없이 저장합니다.
+- 직접 입력한 버디도 4단계 확인 화면과 공유 로그에 표시됩니다.
+
+### 변경된 파일
+
+- 수정: `files/prototype.js`
+
 ## 2026-08-18 20:58:54
 
 ### 변경 요약
@@ -252,3 +264,51 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: 43ed3e70afa1a457d6522847788e12ab66ed2dccd69508d80b15ad0754a17b86 -->
+
+## 2026-08-18 21:00:04
+
+### 변경 요약
+
+- 14개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ files/1-로그인.html          |  2 +-
+ files/10-로그작성-3단계.html |  2 +-
+ files/11-로그작성-4단계.html |  2 +-
+ files/12-친구공유.html       |  2 +-
+ files/13-버디로그.html       |  2 +-
+ files/2-회원가입.html        |  2 +-
+ files/3-연동시작.html        |  2 +-
+ files/4-로그작성-2단계.html  |  2 +-
+ files/5-대시보드.html        |  2 +-
+ files/6-로그목록.html        |  2 +-
+ files/7-로그상세.html        |  2 +-
+ files/8-장비관리.html        |  2 +-
+ files/9-내정보.html          |  2 +-
+ files/prototype.js           | 10 +++++++++-
+ 14 files changed, 22 insertions(+), 14 deletions(-)
+```
+
+</details>
+
+<!-- change-id: f305a062e7d688174aeee6d4d5f734b2c859378fbacd7732e8387feb72dd4cd3 -->

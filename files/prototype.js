@@ -249,6 +249,12 @@ if (title === "로그 작성 - 3단계") {
   const friends = getFriends();
   const savedBuddies = Array.isArray(saved.buddyUserIds) ? saved.buddyUserIds : [];
   friendList.innerHTML = friends.map((friend) => `<label class="buddy-option"><input type="checkbox" name="buddy" value="${friend.id}" ${savedBuddies.includes(friend.id) ? "checked" : ""}><span>${friend.name}<small>${friend.email}</small></span></label>`).join("");
+  const manualBuddyField = document.createElement("div");
+  manualBuddyField.style.marginTop = "8px";
+  manualBuddyField.innerHTML = '<label for="manual-buddy-names">버디 이름 직접 입력</label><input id="manual-buddy-names" type="text" placeholder="예: 김다이버, 현지 가이드"><p class="helper">등록된 친구가 아니라면 이름을 직접 입력하세요. 여러 명은 쉼표로 구분합니다.</p>';
+  friendList.after(manualBuddyField);
+  const savedManualBuddies = Array.isArray(saved.manualBuddyNames) ? saved.manualBuddyNames : [];
+  document.querySelector("#manual-buddy-names").value = savedManualBuddies.join(", ");
   const photoField = document.createElement("div");
   photoField.className = "field wide";
   photoField.innerHTML = '<label for="log-photos">다이빙 사진 <span class="helper">(선택)</span></label><div class="photo-picker"><input id="log-photos" type="file" accept="image/*" multiple><p class="helper">사진이 없으면 선택하지 않고 넘어가도 됩니다.</p><div id="log-photo-preview" class="photo-preview-list"></div></div>';
@@ -286,7 +292,9 @@ if (title === "로그 작성 - 3단계") {
     if (end >= start) { error.textContent = "종료 압력은 시작 압력보다 작아야 합니다."; return; }
     const draft = Object.fromEntries(ids.map((id) => [id, document.querySelector(`#${id}`).value]));
     draft.buddyUserIds = [...document.querySelectorAll('input[name="buddy"]:checked')].map((input) => input.value);
-    draft.buddyNames = friends.filter((friend) => draft.buddyUserIds.includes(friend.id)).map((friend) => friend.name);
+    draft.manualBuddyNames = document.querySelector("#manual-buddy-names").value.split(",").map((name) => name.trim()).filter(Boolean);
+    const selectedFriendNames = friends.filter((friend) => draft.buddyUserIds.includes(friend.id)).map((friend) => friend.name);
+    draft.buddyNames = [...new Set([...selectedFriendNames, ...draft.manualBuddyNames])];
     draft.photos = draftPhotos;
     try {
       sessionStorage.setItem("gani-log-draft", JSON.stringify(draft));
