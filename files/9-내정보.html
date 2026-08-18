@@ -116,6 +116,32 @@
         min-height: 800px;
         padding: 24px 32px;
       }
+      .edit-panel {
+        display: none;
+        max-width: 420px;
+        margin-top: 16px;
+        padding: 18px;
+        border: 1px solid #e4e1d6;
+        border-radius: 12px;
+        background: #fdfdfb;
+      }
+      .edit-panel.open {
+        display: block;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      .form-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 18px;
+      }
+      .form-error {
+        min-height: 17px;
+        margin-top: 8px;
+        color: #a32d2d;
+        font-size: 11px;
+      }
     </style>
   </head>
   <body>
@@ -144,6 +170,7 @@
           "
         >
           <div
+            id="profile-avatar"
             style="
               width: 56px;
               height: 56px;
@@ -160,10 +187,15 @@
             가은
           </div>
           <div>
-            <p style="font-size: 15px; font-weight: 500; margin-bottom: 2px">
+            <p
+              id="profile-name"
+              style="font-size: 15px; font-weight: 500; margin-bottom: 2px"
+            >
               김가은
             </p>
-            <p style="font-size: 12px; color: #5f5e5a">gaeun@example.com</p>
+            <p id="profile-email" style="font-size: 12px; color: #5f5e5a">
+              gaeun@example.com
+            </p>
           </div>
         </div>
         <div
@@ -184,7 +216,9 @@
             "
           >
             <span style="font-size: 13px; color: #5f5e5a">다이빙 자격</span
-            ><span style="font-size: 13px">Advanced Open Water</span>
+            ><span id="profile-certification" style="font-size: 13px"
+              >Advanced Open Water</span
+            >
           </div>
           <div
             class="card"
@@ -203,7 +237,48 @@
           다이빙 자격은 로그 수를 기준으로 자동 변경되지 않으며, 직접
           입력·수정합니다.
         </p>
-        <button class="btn">정보 수정</button>
+        <button id="edit-profile-button" class="btn">정보 수정</button>
+        <form id="profile-form" class="edit-panel" novalidate>
+          <div class="field">
+            <label class="label" for="profile-name-input">이름</label>
+            <input
+              id="profile-name-input"
+              class="input"
+              name="name"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div class="field">
+            <label class="label" for="profile-email-input">이메일</label>
+            <input
+              id="profile-email-input"
+              class="input"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="field">
+            <label class="label" for="profile-certification-input"
+              >다이빙 자격</label
+            >
+            <input
+              id="profile-certification-input"
+              class="input"
+              name="certification"
+              placeholder="예: Advanced Open Water"
+            />
+          </div>
+          <p id="profile-form-error" class="form-error" role="alert"></p>
+          <div class="form-actions">
+            <button id="cancel-profile-button" class="btn" type="button">
+              취소
+            </button>
+            <button class="btn btn-primary" type="submit">저장</button>
+          </div>
+        </form>
       </div>
     </div>
     <script src="prototype.js"></script>

@@ -85,7 +85,91 @@ if (title === "장비 관리") {
 }
 
 if (title === "내 정보") {
-  makeClickable(buttonNamed("정보 수정"), () =>
-    window.alert("정보 수정 기능은 아직 화면 시안 단계입니다."),
+  const storageKey = "gani-log-profile";
+  const form = document.querySelector("#profile-form");
+  const editButton = document.querySelector("#edit-profile-button");
+  const cancelButton = document.querySelector("#cancel-profile-button");
+  const nameInput = document.querySelector("#profile-name-input");
+  const emailInput = document.querySelector("#profile-email-input");
+  const certificationInput = document.querySelector(
+    "#profile-certification-input",
   );
+  const nameText = document.querySelector("#profile-name");
+  const emailText = document.querySelector("#profile-email");
+  const certificationText = document.querySelector("#profile-certification");
+  const avatar = document.querySelector("#profile-avatar");
+  const errorText = document.querySelector("#profile-form-error");
+
+  const defaultProfile = {
+    name: nameText.textContent.trim(),
+    email: emailText.textContent.trim(),
+    certification: certificationText.textContent.trim(),
+  };
+
+  function readProfile() {
+    try {
+      return {
+        ...defaultProfile,
+        ...JSON.parse(localStorage.getItem(storageKey)),
+      };
+    } catch {
+      return defaultProfile;
+    }
+  }
+
+  function renderProfile(profile) {
+    nameText.textContent = profile.name;
+    emailText.textContent = profile.email;
+    certificationText.textContent = profile.certification || "등록된 자격 없음";
+    avatar.textContent = profile.name.replaceAll(" ", "").slice(-2);
+  }
+
+  function fillForm(profile) {
+    nameInput.value = profile.name;
+    emailInput.value = profile.email;
+    certificationInput.value = profile.certification;
+    errorText.textContent = "";
+  }
+
+  let profile = readProfile();
+  renderProfile(profile);
+
+  editButton.addEventListener("click", () => {
+    fillForm(profile);
+    form.classList.add("open");
+    editButton.hidden = true;
+    nameInput.focus();
+  });
+
+  cancelButton.addEventListener("click", () => {
+    form.classList.remove("open");
+    editButton.hidden = false;
+    errorText.textContent = "";
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const certification = certificationInput.value.trim();
+
+    if (!name) {
+      errorText.textContent = "이름을 입력해 주세요.";
+      nameInput.focus();
+      return;
+    }
+
+    if (!emailInput.validity.valid) {
+      errorText.textContent = "올바른 이메일 주소를 입력해 주세요.";
+      emailInput.focus();
+      return;
+    }
+
+    profile = { name, email, certification };
+    localStorage.setItem(storageKey, JSON.stringify(profile));
+    renderProfile(profile);
+    form.classList.remove("open");
+    editButton.hidden = false;
+  });
 }
