@@ -87,7 +87,7 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
  3 files changed, 444 insertions(+), 3 deletions(-)
 ```
 
-## 2026-08-18 20:52:47
+## 2026-08-18 20:53:03
 
 ### 변경 요약
 
@@ -95,3 +95,18 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 
 ### 변경된 파일
 
+- 수정: `.auto-git-sync.sh`
+- 추가: `.githooks/prepare-commit-msg`
+- 수정: `README.md`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ .auto-git-sync.sh            | 22 ----------------
+ .githooks/prepare-commit-msg | 62 ++++++++++++++++++++++++++++++++++++++++++++
+ README.md                    |  2 +-
+ 3 files changed, 63 insertions(+), 23 deletions(-)
+```
+
+</details>

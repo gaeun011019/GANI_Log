@@ -71,7 +71,7 @@ fi
 
 commit_time=$(/bin/date '+%Y-%m-%d %H:%M:%S')
 
-if ! /usr/bin/git commit -m "Auto sync: $commit_time" >> "$log_file" 2>&1; then
+if ! /usr/bin/git commit -m "자동 업로드: $commit_time" >> "$log_file" 2>&1; then
   log "Failed: commit"
   exit 1
 fi
