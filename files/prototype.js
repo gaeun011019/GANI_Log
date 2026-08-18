@@ -2,6 +2,7 @@ const pageByMenu = {
   대시보드: "5-대시보드.html",
   "로그 목록": "6-로그목록.html",
   "친구 · 공유": "12-친구공유.html",
+  "버디 로그": "13-버디로그.html",
   "장비 관리": "8-장비관리.html",
   "내 정보": "9-내정보.html",
 };
@@ -62,9 +63,19 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   const link = document.createElement("div");
   link.className = "sidelink";
   link.innerHTML = '<span class="dot"></span>친구 · 공유';
-  const profileLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("내 정보"));
-  sidebar.insertBefore(link, profileLink || null);
+  const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
+  sidebar.insertBefore(link, equipmentLink || null);
   makeClickable(link, () => goTo("12-친구공유.html"));
+});
+
+document.querySelectorAll(".sidebar").forEach((sidebar) => {
+  if ([...sidebar.querySelectorAll(".sidelink")].some((link) => link.textContent.trim().includes("버디 로그"))) return;
+  const link = document.createElement("div");
+  link.className = "sidelink";
+  link.innerHTML = '<span class="dot"></span>버디 로그';
+  const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
+  sidebar.insertBefore(link, equipmentLink || null);
+  makeClickable(link, () => goTo("13-버디로그.html"));
 });
 
 const title = document.title;
@@ -555,4 +566,25 @@ if (title === "친구 · 공유") {
   renderFriends();
   renderRequests();
   renderFeed();
+}
+
+if (title === "버디 로그") {
+  const feedList = document.querySelector("#buddy-log-list");
+  const filter = document.querySelector("#buddy-log-filter");
+  const ownShared = readStoredArray("gani-log-records").filter((log) => log.visibility !== "private");
+  const examples = [
+    { ownerName: "박민지", point: "울릉도 죽도", visibility: "friends", createdAt: "2026-08-16T10:00:00+09:00", buddyNames: ["김가은"] },
+    { ownerName: "이준호", point: "강원도 문암", visibility: "public", createdAt: "2026-08-12T10:00:00+09:00", buddyNames: [] },
+  ];
+  const logs = [...ownShared, ...examples];
+  const visibilityNames = { friends: "친구 공개", public: "전체 공개" };
+
+  function renderBuddyLogs() {
+    const selected = filter.value;
+    const visibleLogs = selected === "all" ? logs : logs.filter((log) => log.visibility === selected);
+    feedList.innerHTML = visibleLogs.length ? visibleLogs.map((log) => `<article class="buddy-card"><div class="card-head"><span class="avatar">${(log.ownerName || currentUser.name).slice(0, 1)}</span><div><strong>${log.ownerName || currentUser.name}</strong><small>${new Date(log.createdAt).toLocaleDateString("ko-KR")}</small></div><span class="scope ${log.visibility}">${visibilityNames[log.visibility]}</span></div><h2>${log.point || "새 다이빙 로그"}</h2><p>${log.buddyNames?.length ? `함께한 버디: ${log.buddyNames.join(", ")}` : "등록된 버디 없음"}</p></article>`).join("") : '<p class="empty">조건에 맞는 버디 로그가 없습니다.</p>';
+  }
+
+  filter.addEventListener("change", renderBuddyLogs);
+  renderBuddyLogs();
 }
