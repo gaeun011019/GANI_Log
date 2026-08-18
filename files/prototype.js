@@ -64,7 +64,8 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   link.className = "sidelink";
   link.innerHTML = '<span class="dot"></span>친구 · 공유';
   const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
-  sidebar.insertBefore(link, equipmentLink || null);
+  const menuContainer = equipmentLink?.parentElement || sidebar;
+  menuContainer.insertBefore(link, equipmentLink || null);
   makeClickable(link, () => goTo("12-친구공유.html"));
 });
 
@@ -74,7 +75,8 @@ document.querySelectorAll(".sidebar").forEach((sidebar) => {
   link.className = "sidelink";
   link.innerHTML = '<span class="dot"></span>버디 로그';
   const equipmentLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("장비 관리"));
-  sidebar.insertBefore(link, equipmentLink || null);
+  const menuContainer = equipmentLink?.parentElement || sidebar;
+  menuContainer.insertBefore(link, equipmentLink || null);
   makeClickable(link, () => goTo("13-버디로그.html"));
 });
 
