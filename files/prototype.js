@@ -1,9 +1,34 @@
 const pageByMenu = {
   대시보드: "5-대시보드.html",
   "로그 목록": "6-로그목록.html",
+  "친구 · 공유": "12-친구공유.html",
   "장비 관리": "8-장비관리.html",
   "내 정보": "9-내정보.html",
 };
+
+const currentUser = { id: "me", name: "김가은", email: "gaeun@example.com" };
+const friendStorageKey = "gani-log-friends";
+const requestStorageKey = "gani-log-friend-requests";
+
+function readStoredArray(key, fallback = []) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "null");
+    return Array.isArray(value) ? value : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function getFriends() {
+  const saved = readStoredArray(friendStorageKey);
+  if (localStorage.getItem(friendStorageKey) !== null) return saved;
+  const initial = [
+    { id: "friend-minji", name: "박민지", email: "minji@example.com" },
+    { id: "friend-junho", name: "이준호", email: "junho@example.com" },
+  ];
+  localStorage.setItem(friendStorageKey, JSON.stringify(initial));
+  return initial;
+}
 
 function goTo(file) {
   window.location.href = file;
@@ -32,13 +57,26 @@ document.querySelectorAll(".sidelink").forEach((link) => {
   if (destination) makeClickable(link, () => goTo(destination));
 });
 
+document.querySelectorAll(".sidebar").forEach((sidebar) => {
+  if ([...sidebar.querySelectorAll(".sidelink")].some((link) => link.textContent.trim().includes("친구 · 공유"))) return;
+  const link = document.createElement("div");
+  link.className = "sidelink";
+  link.innerHTML = '<span class="dot"></span>친구 · 공유';
+  const profileLink = [...sidebar.querySelectorAll(".sidelink")].find((item) => item.textContent.trim().includes("내 정보"));
+  sidebar.insertBefore(link, profileLink || null);
+  makeClickable(link, () => goTo("12-친구공유.html"));
+});
+
 const title = document.title;
 const buttons = [...document.querySelectorAll("button")];
 const buttonNamed = (name) =>
   buttons.find((button) => button.textContent.trim() === name);
 
 if (title === "로그인") {
-  makeClickable(buttonNamed("로그인"), () => goTo("5-대시보드.html"));
+  makeClickable(buttonNamed("로그인"), () => {
+    localStorage.setItem("gani-log-current-user", JSON.stringify(currentUser));
+    goTo("5-대시보드.html");
+  });
   makeClickable(document.querySelector("p span"), () =>
     goTo("2-회원가입.html"),
   );
@@ -125,7 +163,7 @@ if (title === "로그 작성 - 2단계") {
 if (title === "로그 작성 - 3단계") {
   const form = document.querySelector("#log-details-form");
   const error = document.querySelector("#log-details-error");
-  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo"];
+  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo", "visibility"];
   const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
   const equipmentInput = document.querySelector("#equipment");
   const equipmentSelect = document.createElement("select");
@@ -169,6 +207,10 @@ if (title === "로그 작성 - 3단계") {
     const field = document.querySelector(`#${id}`);
     if (field && saved[id] != null) field.value = saved[id];
   });
+  const friendList = document.querySelector("#buddy-list");
+  const friends = getFriends();
+  const savedBuddies = Array.isArray(saved.buddyUserIds) ? saved.buddyUserIds : [];
+  friendList.innerHTML = friends.map((friend) => `<label class="buddy-option"><input type="checkbox" name="buddy" value="${friend.id}" ${savedBuddies.includes(friend.id) ? "checked" : ""}><span>${friend.name}<small>${friend.email}</small></span></label>`).join("");
   makeClickable(document.querySelector("#log-step3-back"), () => goTo("4-로그작성-2단계.html"));
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -177,6 +219,8 @@ if (title === "로그 작성 - 3단계") {
     if (!form.checkValidity()) { form.reportValidity(); return; }
     if (end >= start) { error.textContent = "종료 압력은 시작 압력보다 작아야 합니다."; return; }
     const draft = Object.fromEntries(ids.map((id) => [id, document.querySelector(`#${id}`).value]));
+    draft.buddyUserIds = [...document.querySelectorAll('input[name="buddy"]:checked')].map((input) => input.value);
+    draft.buddyNames = friends.filter((friend) => draft.buddyUserIds.includes(friend.id)).map((friend) => friend.name);
     sessionStorage.setItem("gani-log-draft", JSON.stringify(draft));
     goTo("11-로그작성-4단계.html");
   });
@@ -187,6 +231,8 @@ if (title === "로그 작성 - 4단계") {
   const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["water", "수역", ""], ["current", "조류", ""]];
   const summary = document.querySelector("#log-summary");
   summary.innerHTML = labels.map(([key, label, unit]) => `<div class="row"><span>${label}</span><span>${draft[key] ? `${draft[key]}${unit ? ` ${unit}` : ""}` : "입력 안 함"}</span></div>`).join("");
+  const visibilityNames = { private: "나만 보기", friends: "친구 공개", public: "전체 공개" };
+  summary.insertAdjacentHTML("beforeend", `<div class="row"><span>함께한 버디</span><span>${draft.buddyNames?.join(", ") || "선택 안 함"}</span></div><div class="row"><span>공개 범위</span><span>${visibilityNames[draft.visibility] || "나만 보기"}</span></div>`);
   const ready = document.querySelector("#analysis-ready");
   if (!draft["tank-volume"] || !draft["start-pressure"] || !draft["end-pressure"]) {
     ready.textContent = "SAC·RMV 계산에 필요한 탱크 용량 또는 압력 정보가 부족합니다.";
@@ -199,7 +245,7 @@ if (title === "로그 작성 - 4단계") {
     button.disabled = true;
     button.textContent = "저장 중…";
     const logs = JSON.parse(localStorage.getItem("gani-log-records") || "[]");
-    logs.push({ ...draft, createdAt: new Date().toISOString() });
+    logs.push({ id: `log-${Date.now()}`, ownerId: currentUser.id, ownerName: currentUser.name, ...draft, visibility: draft.visibility || "private", createdAt: new Date().toISOString() });
     localStorage.setItem("gani-log-records", JSON.stringify(logs));
     sessionStorage.removeItem("gani-log-draft");
     document.querySelector("#save-log-message").textContent = "로그를 저장했습니다. 대시보드로 이동합니다.";
@@ -447,4 +493,66 @@ if (title === "내 정보") {
     form.classList.remove("open");
     editButton.hidden = false;
   });
+}
+
+if (title === "친구 · 공유") {
+  const friendList = document.querySelector("#friend-list");
+  const requestList = document.querySelector("#request-list");
+  const feedList = document.querySelector("#shared-log-list");
+  const form = document.querySelector("#friend-request-form");
+  const emailInput = document.querySelector("#friend-email");
+  const message = document.querySelector("#friend-message");
+
+  function renderFriends() {
+    const friends = getFriends();
+    friendList.innerHTML = friends.length ? friends.map((friend) => `<div class="person-row"><div class="avatar">${friend.name.slice(0, 1)}</div><div><strong>${friend.name}</strong><small>${friend.email}</small></div><button class="text-button" data-remove-friend="${friend.id}">삭제</button></div>`).join("") : '<p class="empty">아직 등록된 친구가 없습니다.</p>';
+    friendList.querySelectorAll("[data-remove-friend]").forEach((button) => button.addEventListener("click", () => {
+      localStorage.setItem(friendStorageKey, JSON.stringify(friends.filter((friend) => friend.id !== button.dataset.removeFriend)));
+      renderFriends();
+    }));
+  }
+
+  function renderRequests() {
+    const requests = readStoredArray(requestStorageKey, [{ id: "request-yuna", name: "최유나", email: "yuna@example.com" }]);
+    if (!localStorage.getItem(requestStorageKey)) localStorage.setItem(requestStorageKey, JSON.stringify(requests));
+    requestList.innerHTML = requests.length ? requests.map((request) => `<div class="person-row"><div class="avatar">${request.name.slice(0, 1)}</div><div><strong>${request.name}</strong><small>${request.email}</small></div><div class="row-actions"><button class="small-button accept" data-accept="${request.id}">수락</button><button class="small-button" data-reject="${request.id}">거절</button></div></div>`).join("") : '<p class="empty">받은 친구 요청이 없습니다.</p>';
+    requestList.querySelectorAll("[data-accept]").forEach((button) => button.addEventListener("click", () => {
+      const request = requests.find((item) => item.id === button.dataset.accept);
+      localStorage.setItem(friendStorageKey, JSON.stringify([...getFriends(), request]));
+      localStorage.setItem(requestStorageKey, JSON.stringify(requests.filter((item) => item.id !== request.id)));
+      renderFriends();
+      renderRequests();
+    }));
+    requestList.querySelectorAll("[data-reject]").forEach((button) => button.addEventListener("click", () => {
+      localStorage.setItem(requestStorageKey, JSON.stringify(requests.filter((item) => item.id !== button.dataset.reject)));
+      renderRequests();
+    }));
+  }
+
+  function renderFeed() {
+    const ownShared = readStoredArray("gani-log-records").filter((log) => log.visibility !== "private");
+    const examples = [
+      { ownerName: "박민지", point: "울릉도 죽도", visibility: "friends", createdAt: "2026-08-16T10:00:00+09:00", buddyNames: ["김가은"] },
+      { ownerName: "이준호", point: "강원도 문암", visibility: "public", createdAt: "2026-08-12T10:00:00+09:00", buddyNames: [] },
+    ];
+    const names = { friends: "친구 공개", public: "전체 공개" };
+    feedList.innerHTML = [...ownShared, ...examples].map((log) => `<article class="log-card"><span class="scope ${log.visibility}">${names[log.visibility]}</span><h3>${log.point || "새 다이빙 로그"}</h3><p>${log.ownerName || currentUser.name} · ${new Date(log.createdAt).toLocaleDateString("ko-KR")}</p>${log.buddyNames?.length ? `<p>함께한 버디: ${log.buddyNames.join(", ")}</p>` : ""}</article>`).join("");
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = emailInput.value.trim().toLowerCase();
+    if (!email || email === currentUser.email || getFriends().some((friend) => friend.email === email)) {
+      message.textContent = email === currentUser.email ? "내 계정에는 친구 요청을 보낼 수 없습니다." : "이메일을 확인하거나 이미 등록된 친구인지 확인해 주세요.";
+      return;
+    }
+    const sent = readStoredArray("gani-log-sent-requests");
+    localStorage.setItem("gani-log-sent-requests", JSON.stringify([...sent, { email, createdAt: new Date().toISOString() }]));
+    message.textContent = `${email} 계정으로 친구 요청을 보냈습니다.`;
+    emailInput.value = "";
+  });
+
+  renderFriends();
+  renderRequests();
+  renderFeed();
 }
