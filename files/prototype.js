@@ -68,19 +68,35 @@ if (title === "로그 작성 - 3단계") {
   const equipmentSelect = document.createElement("select");
   equipmentSelect.id = "equipment";
   equipmentSelect.innerHTML = '<option value="">선택 안 함</option><option value="렌탈 장비">렌탈 장비</option>';
+  const defaultEquipment = [
+    { name: "3mm 웻슈트", type: "슈트" },
+    { name: "Aqualung BCD", type: "BCD" },
+    { name: "알루미늄 탱크 12L", type: "탱크" },
+    { name: "웨이트 벨트 6kg", type: "웨이트" },
+  ];
   try {
     const registeredEquipment = JSON.parse(localStorage.getItem("gani-log-equipment") || "[]");
-    if (Array.isArray(registeredEquipment)) {
-      registeredEquipment.forEach((equipment) => {
+    const equipmentList = Array.isArray(registeredEquipment)
+      ? [...defaultEquipment, ...registeredEquipment]
+      : defaultEquipment;
+    const uniqueEquipment = equipmentList.filter(
+      (equipment, index, list) =>
+        list.findIndex((item) => item.name === equipment.name) === index,
+    );
+    uniqueEquipment.forEach((equipment) => {
         const option = document.createElement("option");
         const details = [equipment.type, equipment.subtype].filter(Boolean).join(" · ");
         option.value = equipment.name;
         option.textContent = details ? `${equipment.name} (${details})` : equipment.name;
         equipmentSelect.append(option);
-      });
-    }
+    });
   } catch {
-    // 저장된 장비 목록이 손상된 경우에도 렌탈 장비는 선택할 수 있다.
+    defaultEquipment.forEach((equipment) => {
+      const option = document.createElement("option");
+      option.value = equipment.name;
+      option.textContent = `${equipment.name} (${equipment.type})`;
+      equipmentSelect.append(option);
+    });
   }
   equipmentInput.replaceWith(equipmentSelect);
   if (saved["tank-volume"] == null) {
