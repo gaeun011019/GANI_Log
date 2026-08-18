@@ -1,68 +1,200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>로그 목록</title>
-<style>
-* { box-sizing: border-box; margin:0; padding:0; }
-body { font-family:'Pretendard','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',Arial,sans-serif; background:#F1EFE8; color:#2C2C2A; }
-.page { width:1280px; min-height:800px; margin:0 auto; background:#F1EFE8; position:relative; }
-.card { background:#FDFDFB; border-radius:12px; }
-.content { background:#FFFFFF; }
-.btn { display:inline-flex; align-items:center; justify-content:center; height:40px; padding:0 16px; border-radius:8px; font-size:13px; font-weight:500; border:1px solid #E4E1D6; background:transparent; color:#2C2C2A; cursor:pointer; }
-.btn-primary { background:#2C2C2A; color:#FFFFFF; border:none; }
-.input { width:100%; height:40px; border-radius:8px; border:1px solid #E4E1D6; background:#FFFFFF; padding:0 12px; font-size:13px; color:#2C2C2A; }
-.input::placeholder { color:#888780; }
-.label { font-size:12px; color:#5F5E5A; margin-bottom:6px; display:block; }
-.muted { color:#888780; font-size:11px; }
-.badge { display:inline-block; font-size:11px; font-weight:500; padding:4px 12px; border-radius:999px; }
-.sidebar { width:190px; background:#FDFDFB; border-right:0.5px solid #E4E1D6; padding:20px 14px; position:absolute; left:0; top:0; bottom:0; }
-.sidelink { display:flex; align-items:center; gap:8px; font-size:13px; color:#5F5E5A; padding:8px 10px; border-radius:8px; }
-.sidelink.active { color:#0C447C; background:#E6F1FB; font-weight:500; }
-.dot { width:8px; height:8px; border-radius:50%; background:currentColor; display:inline-block; }
-.content-area { margin-left:190px; background:#FFFFFF; min-height:800px; padding:24px 32px; }
-</style>
-<link rel="stylesheet" href="readability.css">
-</head>
-<body>
-<div class="page">
-
-<div class="sidebar">
-<p style="font-size:15px;font-weight:500;margin-bottom:24px">GANI Log</p>
-<div style="display:flex;flex-direction:column;gap:2px">
-<div class="sidelink"><span class="dot"></span>대시보드</div>
-<div class="sidelink active"><span class="dot"></span>로그 목록</div>
-<div class="sidelink"><span class="dot"></span>장비 관리</div>
-<div class="sidelink"><span class="dot"></span>내 정보</div>
-
-</div>
-</div>
-<div class="content-area">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <p style="font-size:18px;font-weight:500">로그 목록</p>
-    <div style="display:flex;gap:8px">
-      <input class="input" style="width:220px" placeholder="다이빙 포인트, 장비로 검색">
-      <button class="btn" style="width:36px;padding:0">⚲</button>
+  <head>
+    <meta charset="UTF-8" />
+    <title>로그 목록</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic",
+          Arial, sans-serif;
+        background: #f1efe8;
+        color: #2c2c2a;
+      }
+      .page {
+        width: 1280px;
+        min-height: 800px;
+        margin: 0 auto;
+        background: #f1efe8;
+        position: relative;
+      }
+      .card {
+        background: #fdfdfb;
+        border-radius: 12px;
+      }
+      .content {
+        background: #ffffff;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        padding: 0 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid #e4e1d6;
+        background: transparent;
+        color: #2c2c2a;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: #2c2c2a;
+        color: #ffffff;
+        border: none;
+      }
+      .input {
+        width: 100%;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #e4e1d6;
+        background: #ffffff;
+        padding: 0 12px;
+        font-size: 13px;
+        color: #2c2c2a;
+      }
+      .input::placeholder {
+        color: #888780;
+      }
+      .label {
+        font-size: 12px;
+        color: #5f5e5a;
+        margin-bottom: 6px;
+        display: block;
+      }
+      .muted {
+        color: #888780;
+        font-size: 11px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 4px 12px;
+        border-radius: 999px;
+      }
+      .sidebar {
+        width: 190px;
+        background: #fdfdfb;
+        border-right: 0.5px solid #e4e1d6;
+        padding: 20px 14px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+      }
+      .sidelink {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #5f5e5a;
+        padding: 8px 10px;
+        border-radius: 8px;
+      }
+      .sidelink.active {
+        color: #0c447c;
+        background: #e6f1fb;
+        font-weight: 500;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+        display: inline-block;
+      }
+      .content-area {
+        margin-left: 190px;
+        background: #ffffff;
+        min-height: 800px;
+        padding: 24px 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="sidebar">
+        <p style="font-size: 15px; font-weight: 500; margin-bottom: 24px">
+          GANI Log
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <div class="sidelink"><span class="dot"></span>대시보드</div>
+          <div class="sidelink active"><span class="dot"></span>로그 목록</div>
+          <div class="sidelink"><span class="dot"></span>장비 관리</div>
+          <div class="sidelink"><span class="dot"></span>내 정보</div>
+        </div>
+      </div>
+      <div class="content-area">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+          "
+        >
+          <p style="font-size: 18px; font-weight: 500">로그 목록</p>
+          <div style="display: flex; gap: 8px">
+            <input
+              class="input"
+              style="width: 220px"
+              placeholder="다이빙 포인트, 장비로 검색"
+            />
+            <button class="btn" style="width: 36px; padding: 0">⚲</button>
+          </div>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px">
+          <thead>
+            <tr style="border-bottom: 0.5px solid #e4e1d6; text-align: left">
+              <th style="padding: 8px 6px; font-weight: 500; color: #5f5e5a">
+                날짜
+              </th>
+              <th style="padding: 8px 6px; font-weight: 500; color: #5f5e5a">
+                다이빙 포인트
+              </th>
+              <th style="padding: 8px 6px; font-weight: 500; color: #5f5e5a">
+                최대수심
+              </th>
+              <th style="padding: 8px 6px; font-weight: 500; color: #5f5e5a">
+                시간
+              </th>
+              <th style="padding: 8px 6px; font-weight: 500; color: #5f5e5a">
+                SAC
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 0.5px solid #e4e1d6">
+              <td style="padding: 10px 6px">2026.08.15</td>
+              <td style="padding: 10px 6px">사팡가, 코타키나발루</td>
+              <td style="padding: 10px 6px">24m</td>
+              <td style="padding: 10px 6px">41min</td>
+              <td style="padding: 10px 6px">16.2 L/min</td>
+            </tr>
+            <tr style="border-bottom: 0.5px solid #e4e1d6">
+              <td style="padding: 10px 6px">2026.07.28</td>
+              <td style="padding: 10px 6px">만타 포인트, 발리</td>
+              <td style="padding: 10px 6px">19m</td>
+              <td style="padding: 10px 6px">38min</td>
+              <td style="padding: 10px 6px">17.9 L/min</td>
+            </tr>
+            <tr style="border-bottom: 0.5px solid #e4e1d6">
+              <td style="padding: 10px 6px">2026.06.02</td>
+              <td style="padding: 10px 6px">투산 렘펭, 사말</td>
+              <td style="padding: 10px 6px">21m</td>
+              <td style="padding: 10px 6px">44min</td>
+              <td style="padding: 10px 6px">15.1 L/min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <table style="width:100%;border-collapse:collapse;font-size:13px">
-    <thead><tr style="border-bottom:0.5px solid #E4E1D6;text-align:left">
-      <th style="padding:8px 6px;font-weight:500;color:#5F5E5A">날짜</th>
-      <th style="padding:8px 6px;font-weight:500;color:#5F5E5A">다이빙 포인트</th>
-      <th style="padding:8px 6px;font-weight:500;color:#5F5E5A">최대수심</th>
-      <th style="padding:8px 6px;font-weight:500;color:#5F5E5A">시간</th>
-      <th style="padding:8px 6px;font-weight:500;color:#5F5E5A">SAC</th>
-    </tr></thead>
-    <tbody><tr style="border-bottom:0.5px solid #E4E1D6">
-  <td style="padding:10px 6px">2026.08.15</td><td style="padding:10px 6px">사팡가, 코타키나발루</td><td style="padding:10px 6px">24m</td><td style="padding:10px 6px">41min</td><td style="padding:10px 6px">16.2 L/min</td>
-</tr><tr style="border-bottom:0.5px solid #E4E1D6">
-  <td style="padding:10px 6px">2026.07.28</td><td style="padding:10px 6px">만타 포인트, 발리</td><td style="padding:10px 6px">19m</td><td style="padding:10px 6px">38min</td><td style="padding:10px 6px">17.9 L/min</td>
-</tr><tr style="border-bottom:0.5px solid #E4E1D6">
-  <td style="padding:10px 6px">2026.06.02</td><td style="padding:10px 6px">투산 렘펭, 사말</td><td style="padding:10px 6px">21m</td><td style="padding:10px 6px">44min</td><td style="padding:10px 6px">15.1 L/min</td>
-</tr></tbody>
-  </table>
-</div>
-</div>
-</body>
+  </body>
 </html>
