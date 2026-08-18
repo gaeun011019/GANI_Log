@@ -4,6 +4,20 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-18 21:11:14
+
+### 변경 요약
+
+- 로컬 서버의 첫 화면인 `index.html`이 로그인 화면을 열도록 변경했습니다.
+- 기존 전체 화면 미리보기는 `screens.html`로 옮겨 계속 확인할 수 있게 했습니다.
+- README의 실행 방법을 새로운 시작 흐름에 맞게 수정했습니다.
+
+### 변경된 파일
+
+- 수정: `files/index.html`
+- 추가: `files/screens.html`
+- 수정: `README.md`
+
 ## 2026-08-18 21:09:24
 
 ### 변경 요약
@@ -538,3 +552,29 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: edf624d6d28bed6738ce3f94ad62850b3e3825acff99fdc44e558718a7e265f5 -->
+
+## 2026-08-18 21:11:34
+
+### 변경 요약
+
+- 3개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `README.md`
+- 수정: `files/index.html`
+- 추가: `files/screens.html`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ README.md          |   2 +-
+ files/index.html   | 216 +++--------------------------------------------------
+ files/screens.html | 216 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 226 insertions(+), 208 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 3cdb6f6e181ac412eb7bb6ea27c4bbfd537c6c7f167dd748da060e24e89343ad -->
