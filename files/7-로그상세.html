@@ -175,51 +175,60 @@
           <span style="font-size: 12px">다이빙 사진이 표시되는 영역</span>
         </div>
         <div
-          class="card"
           style="
             max-width: 900px;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 0.9fr 1.1fr;
             gap: 12px;
             margin-bottom: 12px;
-            padding: 14px 16px;
           "
         >
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">최대수심</p>
-            <p style="font-size: 13px">24m</p>
+          <div class="card" style="padding: 16px">
+            <p style="font-size: 13px; font-weight: 500; margin-bottom: 12px">수심 · 시간</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 18px">
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">최대 수심</p>
+                <p style="font-size: 13px">24m</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">평균 수심</p>
+                <p style="font-size: 13px">14.8m</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">다이빙 시간</p>
+                <p style="font-size: 13px">41분</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">수온</p>
+                <p style="font-size: 13px">28°C</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">다이빙 시간</p>
-            <p style="font-size: 13px">41분</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">평균 수심</p>
-            <p style="font-size: 13px">14.8m</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">수온</p>
-            <p style="font-size: 13px">28°C</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">수역</p>
-            <p style="font-size: 13px">바닷물</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">날씨</p>
-            <p style="font-size: 13px; color: #888780">입력 안 함</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">조류</p>
-            <p style="font-size: 13px; color: #888780">입력 안 함</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">시야</p>
-            <p style="font-size: 13px; color: #888780">입력 안 함</p>
-          </div>
-          <div>
-            <p style="font-size: 11px; color: #888780; margin-bottom: 4px">파도</p>
-            <p style="font-size: 13px; color: #888780">입력 안 함</p>
+
+          <div class="card" style="padding: 16px">
+            <p style="font-size: 13px; font-weight: 500; margin-bottom: 12px">바다 환경</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 18px">
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">수역</p>
+                <p style="font-size: 13px">바닷물</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">날씨</p>
+                <p style="font-size: 13px; color: #888780">입력 안 함</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">조류</p>
+                <p style="font-size: 13px; color: #888780">입력 안 함</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">시야</p>
+                <p style="font-size: 13px; color: #888780">입력 안 함</p>
+              </div>
+              <div>
+                <p style="font-size: 11px; color: #888780; margin-bottom: 4px">파도</p>
+                <p style="font-size: 13px; color: #888780">입력 안 함</p>
+              </div>
+            </div>
           </div>
         </div>
         <div
