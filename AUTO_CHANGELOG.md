@@ -4,6 +4,20 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-19 09:26:57
+
+### 변경 요약
+
+- 로그 작성 3단계에 기체 종류를 공기 또는 나이트록스로 선택하는 항목을 추가했습니다.
+- 공기는 산소 21%를 자동 적용하고, 나이트록스는 산소 비율 입력란이 나타나도록 했습니다.
+- 4단계 확인 화면에서 기체 종류와 산소 비율을 확인할 수 있게 했습니다.
+- 로그 상세 지표 영역에 기체 종류 표시 카드를 추가하고 기존 로그는 `입력 안 함`으로 표시했습니다.
+
+### 변경된 파일
+
+- 수정: `files/prototype.js`
+- 수정: `files/7-로그상세.html`
+
 ## 2026-08-19 09:25:16
 
 ### 변경 요약
@@ -895,3 +909,51 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: f3018e4e427e9bf8d36a9fcb1b710c45e6afa842fafff761e47f0dda44724756 -->
+
+## 2026-08-19 09:27:28
+
+### 변경 요약
+
+- 14개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ files/1-로그인.html          |  2 +-
+ files/10-로그작성-3단계.html |  2 +-
+ files/11-로그작성-4단계.html |  2 +-
+ files/12-친구공유.html       |  2 +-
+ files/13-버디로그.html       |  2 +-
+ files/2-회원가입.html        |  2 +-
+ files/3-연동시작.html        |  2 +-
+ files/4-로그작성-2단계.html  |  2 +-
+ files/5-대시보드.html        |  2 +-
+ files/6-로그목록.html        |  2 +-
+ files/7-로그상세.html        | 10 ++++++++--
+ files/8-장비관리.html        |  2 +-
+ files/9-내정보.html          |  2 +-
+ files/prototype.js           | 23 +++++++++++++++++++++--
+ 14 files changed, 41 insertions(+), 16 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 4e2747d3aa5f927f61d1e54ac2fae46c801ec2a7e9992dab7a1d752eb1d51eb3 -->
