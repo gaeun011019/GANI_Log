@@ -206,7 +206,7 @@ if (title === "로그 작성 - 2단계") {
 if (title === "로그 작성 - 3단계") {
   const form = document.querySelector("#log-details-form");
   const error = document.querySelector("#log-details-error");
-  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "current", "memo", "visibility"];
+  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "weather", "current", "memo", "visibility"];
   const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
   let draftPhotos = Array.isArray(saved.photos) ? saved.photos : [];
   const equipmentInput = document.querySelector("#equipment");
@@ -257,6 +257,11 @@ if (title === "로그 작성 - 3단계") {
   const friendList = document.querySelector("#buddy-list");
   const friends = getFriends();
   const savedBuddies = Array.isArray(saved.buddyUserIds) ? saved.buddyUserIds : [];
+  const weatherField = document.createElement("div");
+  weatherField.className = "field";
+  weatherField.innerHTML = '<label for="weather">날씨</label><select id="weather"><option value="">선택 안 함</option><option>맑음</option><option>구름 많음</option><option>흐림</option><option>비</option><option>눈</option><option>바람 강함</option></select>';
+  document.querySelector("#current").closest(".field").before(weatherField);
+  if (saved.weather != null) document.querySelector("#weather").value = saved.weather;
   friendList.innerHTML = friends.map((friend) => `<label class="buddy-option"><input type="checkbox" name="buddy" value="${friend.id}" ${savedBuddies.includes(friend.id) ? "checked" : ""}><span>${friend.name}<small>${friend.email}</small></span></label>`).join("");
   const manualBuddyField = document.createElement("div");
   manualBuddyField.style.marginTop = "8px";
@@ -317,7 +322,7 @@ if (title === "로그 작성 - 3단계") {
 
 if (title === "로그 작성 - 4단계") {
   const draft = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
-  const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["water", "수역", ""], ["current", "조류", ""]];
+  const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["water", "수역", ""], ["weather", "날씨", ""], ["current", "조류", ""]];
   const summary = document.querySelector("#log-summary");
   summary.innerHTML = labels.map(([key, label, unit]) => `<div class="row"><span>${label}</span><span>${draft[key] ? `${draft[key]}${unit ? ` ${unit}` : ""}` : "입력 안 함"}</span></div>`).join("");
   summary.insertAdjacentHTML("afterbegin", `<div class="row"><span>로그 번호</span><strong>#${getNextLogNumber()}</strong></div>`);
