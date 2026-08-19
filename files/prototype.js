@@ -407,6 +407,33 @@ if (title === "로그 목록") {
   });
 }
 
+if (title === "로그 상세") {
+  const similarLogs = {
+    "0702": { date: "07.02", sac: "15.8 bar/min" },
+    "0519": { date: "05.19", sac: "17.1 bar/min" },
+  };
+  const selectedLog = new URLSearchParams(window.location.search).get("log");
+
+  document.querySelectorAll("[data-similar-log]").forEach((row) => {
+    makeClickable(row, () => goTo(`7-로그상세.html?log=${row.dataset.similarLog}`));
+    row.addEventListener("mouseenter", () => {
+      row.style.background = "#f7f7f5";
+    });
+    row.addEventListener("mouseleave", () => {
+      row.style.background = "transparent";
+    });
+  });
+
+  if (similarLogs[selectedLog]) {
+    const log = similarLogs[selectedLog];
+    document.querySelector("#log-detail-title").textContent = `유사 다이빙 · ${log.date}`;
+    document.querySelector("#log-detail-date").textContent = `${log.date} 과거 로그`;
+    document.querySelector("#log-detail-sac").textContent = log.sac;
+    document.querySelector("#log-detail-sac-heading").textContent = `SAC ${log.sac} 해석`;
+    document.title = `${log.date} 로그 상세`;
+  }
+}
+
 if (title === "장비 관리") {
   const storageKey = "gani-log-equipment";
   const subtypesByType = {
