@@ -1633,3 +1633,42 @@ M	"GANI-Log-\355\231\224\353\251\264\354\204\244\352\263\204\354\204\234.md"
 </details>
 
 <!-- change-id: 8a811b3dd61fd543923e0dae574e48522d9c06fe863789d27456466393e3443d -->
+
+## 2026-08-19 14:56:11
+
+```text
+M	"GANI-Log-\355\231\224\353\251\264\354\204\244\352\263\204\354\204\234.md"
+M	"output/pdf/GANI_Log_\355\231\224\353\251\264_\354\204\244\352\263\204\354\204\234.pdf"
+A	scripts/generate_screen_design_pdf.py
+
+ ...251\264\354\204\244\352\263\204\354\204\234.md" |   3 +-
+ ...1\264_\354\204\244\352\263\204\354\204\234.pdf" |  80 ++++----
+ scripts/generate_screen_design_pdf.py              | 204 +++++++++++++++++++++
+ 3 files changed, 246 insertions(+), 41 deletions(-)
+```
+
+## 2026-08-19 14:56:11
+
+### 변경 요약
+
+- 3개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `GANI-Log-화면설계서.md`
+- 수정: `output/pdf/GANI_Log_화면_설계서.pdf`
+- 추가: `scripts/generate_screen_design_pdf.py`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ GANI-Log-화면설계서.md                |   3 +-
+ output/pdf/GANI_Log_화면_설계서.pdf   |  80 ++++++-------
+ scripts/generate_screen_design_pdf.py | 204 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 246 insertions(+), 41 deletions(-)
+```
+
+</details>
+
+<!-- change-id: ab0df0bca0dace482caa4a710e0062401d2d55845b3a5d3f6616cab30118451d -->
