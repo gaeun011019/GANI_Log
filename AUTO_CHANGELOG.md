@@ -1672,3 +1672,34 @@ A	scripts/generate_screen_design_pdf.py
 </details>
 
 <!-- change-id: ab0df0bca0dace482caa4a710e0062401d2d55845b3a5d3f6616cab30118451d -->
+
+## 2026-08-19 15:41:32
+
+```text
+M	"output/pdf/GANI_Log_\355\231\224\353\251\264_\354\204\244\352\263\204\354\204\234.pdf"
+
+ ...1\264_\354\204\244\352\263\204\354\204\234.pdf" | 232 ++++++++++-----------
+ 1 file changed, 116 insertions(+), 116 deletions(-)
+```
+
+## 2026-08-19 15:41:32
+
+### 변경 요약
+
+- 1개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `output/pdf/GANI_Log_화면_설계서.pdf`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ output/pdf/GANI_Log_화면_설계서.pdf | 232 ++++++++++++++++++------------------
+ 1 file changed, 116 insertions(+), 116 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 4b038b10d98769066e4e160efe891bfcd8245cdd0dec3abf494e3448a2ea51b3 -->
