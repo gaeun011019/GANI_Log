@@ -206,7 +206,7 @@ if (title === "로그 작성 - 2단계") {
 if (title === "로그 작성 - 3단계") {
   const form = document.querySelector("#log-details-form");
   const error = document.querySelector("#log-details-error");
-  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "weather", "current", "memo", "visibility"];
+  const ids = ["tank-volume", "weight", "start-pressure", "end-pressure", "equipment", "weight-state", "water", "average-depth", "underwater-visibility", "wave", "weather", "current", "memo", "visibility"];
   const saved = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
   let draftPhotos = Array.isArray(saved.photos) ? saved.photos : [];
   const equipmentInput = document.querySelector("#equipment");
@@ -262,6 +262,20 @@ if (title === "로그 작성 - 3단계") {
   weatherField.innerHTML = '<label for="weather">날씨</label><select id="weather"><option value="">선택 안 함</option><option>맑음</option><option>구름 많음</option><option>흐림</option><option>비</option><option>눈</option><option>바람 강함</option></select>';
   document.querySelector("#current").closest(".field").before(weatherField);
   if (saved.weather != null) document.querySelector("#weather").value = saved.weather;
+  const averageDepthField = document.createElement("div");
+  averageDepthField.className = "field";
+  averageDepthField.innerHTML = '<label for="average-depth">평균 수심</label><div class="unit"><input id="average-depth" type="number" min="0" step="0.1"><span>m</span></div>';
+  const visibilityField = document.createElement("div");
+  visibilityField.className = "field";
+  visibilityField.innerHTML = '<label for="underwater-visibility">시야</label><div class="unit"><input id="underwater-visibility" type="number" min="0" step="0.1" placeholder="수중 가시거리"><span>m</span></div>';
+  const waveField = document.createElement("div");
+  waveField.className = "field";
+  waveField.innerHTML = '<label for="wave">파도</label><select id="wave"><option value="">선택 안 함</option><option>잔잔함</option><option>약함</option><option>보통</option><option>강함</option></select>';
+  const waterField = document.querySelector("#water").closest(".field");
+  waterField.after(averageDepthField, visibilityField, waveField);
+  document.querySelector("#average-depth").value = saved["average-depth"] ?? "14.8";
+  document.querySelector("#underwater-visibility").value = saved["underwater-visibility"] ?? "";
+  document.querySelector("#wave").value = saved.wave ?? "";
   friendList.innerHTML = friends.map((friend) => `<label class="buddy-option"><input type="checkbox" name="buddy" value="${friend.id}" ${savedBuddies.includes(friend.id) ? "checked" : ""}><span>${friend.name}<small>${friend.email}</small></span></label>`).join("");
   const manualBuddyField = document.createElement("div");
   manualBuddyField.style.marginTop = "8px";
@@ -322,7 +336,7 @@ if (title === "로그 작성 - 3단계") {
 
 if (title === "로그 작성 - 4단계") {
   const draft = JSON.parse(sessionStorage.getItem("gani-log-draft") || "{}");
-  const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["water", "수역", ""], ["weather", "날씨", ""], ["current", "조류", ""]];
+  const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["average-depth", "평균 수심", "m"], ["water", "수역", ""], ["underwater-visibility", "시야", "m"], ["wave", "파도", ""], ["weather", "날씨", ""], ["current", "조류", ""]];
   const summary = document.querySelector("#log-summary");
   summary.innerHTML = labels.map(([key, label, unit]) => `<div class="row"><span>${label}</span><span>${draft[key] ? `${draft[key]}${unit ? ` ${unit}` : ""}` : "입력 안 함"}</span></div>`).join("");
   summary.insertAdjacentHTML("afterbegin", `<div class="row"><span>로그 번호</span><strong>#${getNextLogNumber()}</strong></div>`);

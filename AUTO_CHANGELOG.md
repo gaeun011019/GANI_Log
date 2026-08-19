@@ -4,6 +4,20 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-19 09:25:16
+
+### 변경 요약
+
+- 로그 작성 3단계에 평균 수심, 수중 시야, 파도 상태 입력 항목을 추가했습니다.
+- 평균 수심은 현재 연동 예시 값인 14.8m를 기본으로 표시하고 수정할 수 있게 했습니다.
+- 4단계 확인 화면과 로그 상세의 바다 환경 카드에서 새 항목을 확인할 수 있게 했습니다.
+- 기존 로그에 정해지지 않은 시야와 파도 값은 `입력 안 함`으로 표시했습니다.
+
+### 변경된 파일
+
+- 수정: `files/prototype.js`
+- 수정: `files/7-로그상세.html`
+
 ## 2026-08-19 09:21:21
 
 ### 변경 요약
@@ -833,3 +847,51 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: 509cd18c5188abb3d7235c145fe643f0378860b86e50f888aeccac7f445d8d83 -->
+
+## 2026-08-19 09:25:58
+
+### 변경 요약
+
+- 14개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ files/1-로그인.html          |  2 +-
+ files/10-로그작성-3단계.html |  2 +-
+ files/11-로그작성-4단계.html |  2 +-
+ files/12-친구공유.html       |  2 +-
+ files/13-버디로그.html       |  2 +-
+ files/2-회원가입.html        |  2 +-
+ files/3-연동시작.html        |  2 +-
+ files/4-로그작성-2단계.html  |  2 +-
+ files/5-대시보드.html        |  2 +-
+ files/6-로그목록.html        |  2 +-
+ files/7-로그상세.html        | 14 +++++++++++++-
+ files/8-장비관리.html        |  2 +-
+ files/9-내정보.html          |  2 +-
+ files/prototype.js           | 18 ++++++++++++++++--
+ 14 files changed, 41 insertions(+), 15 deletions(-)
+```
+
+</details>
+
+<!-- change-id: f3018e4e427e9bf8d36a9fcb1b710c45e6afa842fafff761e47f0dda44724756 -->
