@@ -1703,3 +1703,38 @@ M	"output/pdf/GANI_Log_\355\231\224\353\251\264_\354\204\244\352\263\204\354\204
 </details>
 
 <!-- change-id: 4b038b10d98769066e4e160efe891bfcd8245cdd0dec3abf494e3448a2ea51b3 -->
+
+## 2026-08-19 16:51:43
+
+```text
+A	output/pdf/ERD.pdf
+M	"output/pdf/GANI_Log_\355\231\224\353\251\264_\354\204\244\352\263\204\354\204\234.pdf"
+
+ output/pdf/ERD.pdf                                 | 30949 +++++++++++++++++++
+ ...1\264_\354\204\244\352\263\204\354\204\234.pdf" |   901 +-
+ 2 files changed, 31406 insertions(+), 444 deletions(-)
+```
+
+## 2026-08-19 16:51:43
+
+### 변경 요약
+
+- 2개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 추가: `output/pdf/ERD.pdf`
+- 수정: `output/pdf/GANI_Log_화면_설계서.pdf`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ output/pdf/ERD.pdf                  | 30949 ++++++++++++++++++++++++++++++++++
+ output/pdf/GANI_Log_화면_설계서.pdf |   901 +-
+ 2 files changed, 31406 insertions(+), 444 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 84ba3657db205aacf4e4b87104ca118d79ea8f0e59ed890afbc9b80167e3d4a1 -->
