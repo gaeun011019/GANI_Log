@@ -10,6 +10,12 @@ const pageByMenu = {
 const currentUser = { id: "me", name: "김가은", email: "gaeun@example.com" };
 const friendStorageKey = "gani-log-friends";
 const requestStorageKey = "gani-log-friend-requests";
+const logNumberStorageKey = "gani-log-next-number";
+
+function getNextLogNumber() {
+  const storedNumber = Number(localStorage.getItem(logNumberStorageKey));
+  return Number.isInteger(storedNumber) && storedNumber > 0 ? storedNumber : 43;
+}
 
 function readStoredArray(key, fallback = []) {
   try {
@@ -314,6 +320,7 @@ if (title === "로그 작성 - 4단계") {
   const labels = [["tank-volume", "탱크 용량", "L"], ["start-pressure", "시작 압력", "bar"], ["end-pressure", "종료 압력", "bar"], ["weight", "웨이트", "kg"], ["equipment", "장비", ""], ["weight-state", "웨이트 상태", ""], ["water", "수역", ""], ["current", "조류", ""]];
   const summary = document.querySelector("#log-summary");
   summary.innerHTML = labels.map(([key, label, unit]) => `<div class="row"><span>${label}</span><span>${draft[key] ? `${draft[key]}${unit ? ` ${unit}` : ""}` : "입력 안 함"}</span></div>`).join("");
+  summary.insertAdjacentHTML("afterbegin", `<div class="row"><span>로그 번호</span><strong>#${getNextLogNumber()}</strong></div>`);
   const visibilityNames = { private: "나만 보기", friends: "친구 공개", public: "전체 공개" };
   summary.insertAdjacentHTML("beforeend", `<div class="row"><span>함께한 버디</span><span>${draft.buddyNames?.join(", ") || "선택 안 함"}</span></div><div class="row"><span>공개 범위</span><span>${visibilityNames[draft.visibility] || "나만 보기"}</span></div>`);
   if (Array.isArray(draft.photos) && draft.photos.length) {
@@ -331,7 +338,8 @@ if (title === "로그 작성 - 4단계") {
     button.disabled = true;
     button.textContent = "저장 중…";
     const logs = JSON.parse(localStorage.getItem("gani-log-records") || "[]");
-    logs.push({ id: `log-${Date.now()}`, ownerId: currentUser.id, ownerName: currentUser.name, ...draft, visibility: draft.visibility || "private", createdAt: new Date().toISOString() });
+    const logNumber = getNextLogNumber();
+    logs.push({ id: `log-${Date.now()}`, logNumber, ownerId: currentUser.id, ownerName: currentUser.name, ...draft, visibility: draft.visibility || "private", createdAt: new Date().toISOString() });
     try {
       localStorage.setItem("gani-log-records", JSON.stringify(logs));
     } catch {
@@ -340,6 +348,7 @@ if (title === "로그 작성 - 4단계") {
       document.querySelector("#save-log-message").textContent = "사진 용량이 커서 저장하지 못했습니다. 이전 단계에서 사진 수를 줄여 주세요.";
       return;
     }
+    localStorage.setItem(logNumberStorageKey, String(logNumber + 1));
     sessionStorage.removeItem("gani-log-draft");
     document.querySelector("#save-log-message").textContent = "로그를 저장했습니다. 대시보드로 이동합니다.";
     setTimeout(() => goTo("5-대시보드.html"), 700);
@@ -513,13 +522,16 @@ if (title === "내 정보") {
   const profileContent = document.querySelector(".content-area");
 
   const certificateStyle = document.createElement("style");
-  certificateStyle.textContent = ".certificate-panel{max-width:720px;margin-top:18px;padding:18px;border:1px solid #e4e1d6;border-radius:12px;background:#fdfdfb}.certificate-panel h2{font-size:14px;margin:0 0 5px}.certificate-upload{display:grid;grid-template-columns:180px 1fr;gap:16px;margin-top:14px}.certificate-preview{height:132px;border:1px dashed #b9c9d8;border-radius:9px;background:#f5f8fa;display:grid;place-items:center;overflow:hidden;color:#888780;font-size:11px;text-align:center;padding:10px}.certificate-preview img{width:100%;height:100%;object-fit:contain}.certificate-controls input[type=file]{font-size:12px;max-width:100%}.certificate-status{min-height:18px;margin:9px 0;font-size:11px;color:#0c447c}.certificate-result{display:none;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:14px;padding-top:14px;border-top:1px solid #e4e1d6}.certificate-result.open{display:grid}.certificate-result .wide{grid-column:1/-1}.certificate-result input{width:100%;height:38px;border:1px solid #d8d5ca;border-radius:8px;padding:0 10px}.certificate-notice{font-size:11px;line-height:1.5;color:#633806;background:#faeeda;border-radius:8px;padding:9px 11px;margin-top:12px}@media(max-width:700px){.certificate-upload{grid-template-columns:1fr}.certificate-result{grid-template-columns:1fr}.certificate-result .wide{grid-column:auto}}";
+  certificateStyle.textContent = ".log-number-panel,.certificate-panel{max-width:720px;margin-top:18px;padding:18px;border:1px solid #e4e1d6;border-radius:12px;background:#fdfdfb}.log-number-panel h2,.certificate-panel h2{font-size:14px;margin:0 0 5px}.log-number-form{display:flex;align-items:end;gap:8px;margin-top:12px}.log-number-form .field{flex:1;margin:0}.log-number-message{min-height:17px;margin-top:7px;color:#0c447c;font-size:11px}.certificate-upload{display:grid;grid-template-columns:180px 1fr;gap:16px;margin-top:14px}.certificate-preview{height:132px;border:1px dashed #b9c9d8;border-radius:9px;background:#f5f8fa;display:grid;place-items:center;overflow:hidden;color:#888780;font-size:11px;text-align:center;padding:10px}.certificate-preview img{width:100%;height:100%;object-fit:contain}.certificate-controls input[type=file]{font-size:12px;max-width:100%}.certificate-status{min-height:18px;margin:9px 0;font-size:11px;color:#0c447c}.certificate-result{display:none;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:14px;padding-top:14px;border-top:1px solid #e4e1d6}.certificate-result.open{display:grid}.certificate-result .wide{grid-column:1/-1}.certificate-result input{width:100%;height:38px;border:1px solid #d8d5ca;border-radius:8px;padding:0 10px}.certificate-notice{font-size:11px;line-height:1.5;color:#633806;background:#faeeda;border-radius:8px;padding:9px 11px;margin-top:12px}@media(max-width:700px){.certificate-upload{grid-template-columns:1fr}.certificate-result{grid-template-columns:1fr}.certificate-result .wide{grid-column:auto}}";
   document.head.append(certificateStyle);
 
   const certificatePanel = document.createElement("section");
   certificatePanel.className = "certificate-panel";
   certificatePanel.innerHTML = '<h2>자격증 이미지로 등록</h2><p class="muted">자격증 사진을 첨부하고 판독 결과를 확인한 뒤 저장하세요.</p><div class="certificate-upload"><div id="certificate-preview" class="certificate-preview">선택한 자격증 이미지가 여기에 표시됩니다.</div><div class="certificate-controls"><label class="label" for="certificate-image">자격증 이미지</label><input id="certificate-image" type="file" accept="image/*"><p id="certificate-status" class="certificate-status" aria-live="polite"></p></div></div><div id="certificate-result" class="certificate-result"><div class="field"><label class="label" for="certificate-agency">발급 단체</label><input id="certificate-agency" placeholder="예: 발급 단체"></div><div class="field"><label class="label" for="certificate-level">자격 등급</label><input id="certificate-level" placeholder="예: Advanced Open Water"></div><div class="field"><label class="label" for="certificate-number">자격번호</label><input id="certificate-number" placeholder="자격번호"></div><div class="field"><label class="label" for="certificate-issued-on">발급일</label><input id="certificate-issued-on" type="date"></div><div class="wide"><button id="save-certificate-result" class="btn btn-primary" type="button">확인한 자격 정보 저장</button></div></div><p class="certificate-notice">현재는 프론트엔드 프로토타입이라 이미지 미리보기와 확인·저장 흐름만 작동합니다. 실제 AI 판독이나 자격증 진위 확인은 하지 않으며, 저장 전에 내용을 직접 확인해야 합니다.</p>';
-  profileContent.append(certificatePanel);
+  const logNumberPanel = document.createElement("section");
+  logNumberPanel.className = "log-number-panel";
+  logNumberPanel.innerHTML = '<h2>로그 번호 설정</h2><p class="muted">기존 다이빙 기록이 있다면 다음에 저장할 로그 번호를 설정하세요.</p><div class="log-number-form"><div class="field"><label class="label" for="next-log-number">다음 로그 번호</label><input id="next-log-number" class="input" type="number" min="1" step="1"></div><button id="save-log-number" class="btn" type="button">번호 저장</button></div><p id="log-number-message" class="log-number-message" aria-live="polite"></p>';
+  profileContent.append(logNumberPanel, certificatePanel);
 
   const defaultProfile = {
     name: nameText.textContent.trim(),
@@ -553,6 +565,20 @@ if (title === "내 정보") {
 
   let profile = readProfile();
   renderProfile(profile);
+
+  const nextLogNumberInput = document.querySelector("#next-log-number");
+  const logNumberMessage = document.querySelector("#log-number-message");
+  nextLogNumberInput.value = String(getNextLogNumber());
+  document.querySelector("#save-log-number").addEventListener("click", () => {
+    const nextNumber = Number(nextLogNumberInput.value);
+    if (!Number.isInteger(nextNumber) || nextNumber < 1) {
+      logNumberMessage.textContent = "1 이상의 정수로 입력해 주세요.";
+      nextLogNumberInput.focus();
+      return;
+    }
+    localStorage.setItem(logNumberStorageKey, String(nextNumber));
+    logNumberMessage.textContent = `다음 로그를 #${nextNumber}로 저장하도록 설정했습니다.`;
+  });
 
   const certificateImage = document.querySelector("#certificate-image");
   const certificatePreview = document.querySelector("#certificate-preview");

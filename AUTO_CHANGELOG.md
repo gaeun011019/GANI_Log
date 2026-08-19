@@ -4,6 +4,21 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-19 09:09:32
+
+### 변경 요약
+
+- 내 정보 화면에 다음 로그 번호를 직접 설정하는 기능을 추가했습니다.
+- 새 로그의 4단계 확인 화면에 예정 로그 번호를 표시하고, 저장 후 다음 번호가 자동으로 1 증가하게 했습니다.
+- 기존 목업 로그 목록과 상세 화면에 #42, #41, #40 로그 번호를 표시했습니다.
+- 별도 설정이 없으면 기존 42회 기록 다음 번호인 #43부터 시작합니다.
+
+### 변경된 파일
+
+- 수정: `files/prototype.js`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+
 ## 2026-08-18 21:12:33
 
 ### 변경 요약
@@ -637,3 +652,51 @@ M	"files/9-\353\202\264\354\240\225\353\263\264.html"
 </details>
 
 <!-- change-id: aaf3a55c451217a6831ec3a2e0857147106b10ba660d2fec1b3068330c2e3354 -->
+
+## 2026-08-19 09:11:05
+
+### 변경 요약
+
+- 14개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `files/1-로그인.html`
+- 수정: `files/10-로그작성-3단계.html`
+- 수정: `files/11-로그작성-4단계.html`
+- 수정: `files/12-친구공유.html`
+- 수정: `files/13-버디로그.html`
+- 수정: `files/2-회원가입.html`
+- 수정: `files/3-연동시작.html`
+- 수정: `files/4-로그작성-2단계.html`
+- 수정: `files/5-대시보드.html`
+- 수정: `files/6-로그목록.html`
+- 수정: `files/7-로그상세.html`
+- 수정: `files/8-장비관리.html`
+- 수정: `files/9-내정보.html`
+- 수정: `files/prototype.js`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ files/1-로그인.html          |  2 +-
+ files/10-로그작성-3단계.html |  2 +-
+ files/11-로그작성-4단계.html |  2 +-
+ files/12-친구공유.html       |  2 +-
+ files/13-버디로그.html       |  2 +-
+ files/2-회원가입.html        |  2 +-
+ files/3-연동시작.html        |  2 +-
+ files/4-로그작성-2단계.html  |  2 +-
+ files/5-대시보드.html        |  2 +-
+ files/6-로그목록.html        |  8 +++++++-
+ files/7-로그상세.html        |  4 ++--
+ files/8-장비관리.html        |  2 +-
+ files/9-내정보.html          |  2 +-
+ files/prototype.js           | 32 +++++++++++++++++++++++++++++---
+ 14 files changed, 49 insertions(+), 17 deletions(-)
+```
+
+</details>
+
+<!-- change-id: 31c3ccb84daae14faf6937ab2d9f3fc0b1d8de4cfe1b79f0c2247ca0c44b8136 -->
