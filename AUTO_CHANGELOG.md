@@ -4,6 +4,20 @@
 자동 업로드와 직접 만든 커밋 모두 변경 요약, 파일 목록, 변경 규모를 함께 기록합니다.
 세부 코드는 같은 커밋의 GitHub diff에서 확인할 수 있습니다.
 
+## 2026-08-19 12:05:00
+
+### 변경 요약
+
+- 화면 설계서를 v1.3으로 올리고 13개 화면별 상세 설계에 실제 HTML 프로토타입 캡처를 추가했습니다.
+- 로그인, 회원가입, 로그 작성 4단계, 대시보드, 로그 목록·상세, 장비 관리, 내 정보, 친구·공유와 버디 로그 화면을 각 화면 ID에 맞춰 연결했습니다.
+- 화면별 페이지에서 캡처 다음에 기본 정보, UI 동작 설명과 예외 처리가 이어지도록 화면 설계서 PDF를 22페이지로 다시 만들었습니다.
+
+### 변경된 파일
+
+- 수정: `GANI-Log-화면설계서.md`
+- 수정: `output/pdf/GANI_Log_화면_설계서.pdf`
+- 추가: `docs/screenshots/` 화면 캡처 13개
+
 ## 2026-08-19 11:40:27
 
 ### 변경 요약
@@ -1374,3 +1388,53 @@ M	"GANI-Log-\355\231\224\353\251\264\354\204\244\352\263\204\354\204\234.md"
 </details>
 
 <!-- change-id: df8eba3390c19beaba2059aa40c5188dd433b437bbc98b2cc7c22744153f402a -->
+
+## 2026-08-19 13:28:26
+
+### 변경 요약
+
+- 15개 파일의 변경 내용을 저장했습니다.
+
+### 변경된 파일
+
+- 수정: `GANI-Log-화면설계서.md`
+- 추가: `docs/screenshots/SCR-AUTH-001-login.png`
+- 추가: `docs/screenshots/SCR-AUTH-002-signup.png`
+- 추가: `docs/screenshots/SCR-EQP-001-equipment.png`
+- 추가: `docs/screenshots/SCR-LOG-001-review.png`
+- 추가: `docs/screenshots/SCR-LOG-002-extra.png`
+- 추가: `docs/screenshots/SCR-LOG-003-final.png`
+- 추가: `docs/screenshots/SCR-LOG-004-list.png`
+- 추가: `docs/screenshots/SCR-LOG-005-detail.png`
+- 추가: `docs/screenshots/SCR-MAIN-001-dashboard.png`
+- 추가: `docs/screenshots/SCR-MY-001-profile.png`
+- 추가: `docs/screenshots/SCR-SOCIAL-001-friends.png`
+- 추가: `docs/screenshots/SCR-SOCIAL-002-logs.png`
+- 추가: `docs/screenshots/SCR-SYNC-001-connect.png`
+- 수정: `output/pdf/GANI_Log_화면_설계서.pdf`
+
+<details>
+<summary>파일별 변경 규모 보기</summary>
+
+```text
+ GANI-Log-화면설계서.md                      |  55 +++++++++++++++++++++++++++-
+ docs/screenshots/SCR-AUTH-001-login.png     | Bin 0 -> 21838 bytes
+ docs/screenshots/SCR-AUTH-002-signup.png    | Bin 0 -> 27267 bytes
+ docs/screenshots/SCR-EQP-001-equipment.png  | Bin 0 -> 31642 bytes
+ docs/screenshots/SCR-LOG-001-review.png     | Bin 0 -> 42649 bytes
+ docs/screenshots/SCR-LOG-002-extra.png      | Bin 0 -> 87475 bytes
+ docs/screenshots/SCR-LOG-003-final.png      | Bin 0 -> 73630 bytes
+ docs/screenshots/SCR-LOG-004-list.png       | Bin 0 -> 62034 bytes
+ docs/screenshots/SCR-LOG-005-detail.png     | Bin 0 -> 148778 bytes
+ docs/screenshots/SCR-MAIN-001-dashboard.png | Bin 0 -> 57434 bytes
+ docs/screenshots/SCR-MY-001-profile.png     | Bin 0 -> 76919 bytes
+ docs/screenshots/SCR-SOCIAL-001-friends.png | Bin 0 -> 56100 bytes
+ docs/screenshots/SCR-SOCIAL-002-logs.png    | Bin 0 -> 36225 bytes
+ docs/screenshots/SCR-SYNC-001-connect.png   | Bin 0 -> 39727 bytes
+ output/pdf/GANI_Log_화면_설계서.pdf         | Bin 165627 -> 975790 bytes
+ 15 files changed, 54 insertions(+), 1 deletion(-)
+```
+
+</details>
+
+<!-- change-id: b26f64d42bf8eb80210c1359d7236adb9445465ee68533b30756225bdfe0d21d -->

@@ -9,7 +9,7 @@
 | 문서명 | 화면 설계서 |
 | 작성자 | 김가은 |
 | 작성일 | 2026-08-19 |
-| 버전 | v1.2 |
+| 버전 | v1.3 |
 | 대상 환경 | 웹 데스크톱, 1280px 기준 |
 | 주요 사용자 | 개인 다이버 |
 
@@ -22,6 +22,7 @@
 - SAC는 `bar/min`, RMV는 `L/min`으로 표시한다.
 - SAC와 RMV는 실력이나 안전을 판정하는 값이 아니라 기록 비교를 위한 참고 지표로 안내한다.
 - 와이어프레임의 예시 수치와 개인 정보는 화면 구성 확인용이며 실제 사용자 데이터가 아니다.
+- 화면 캡처는 2026-08-19 기준 HTML 프로토타입을 데스크톱 환경에서 촬영한 예시다.
 
 ## 3. 화면 ID 체계
 
@@ -100,6 +101,10 @@ SCR-AUTH-001 로그인
 
 ## 7.1 SCR-AUTH-001 로그인
 
+### 화면 캡처
+
+![SCR-AUTH-001 로그인 화면](docs/screenshots/SCR-AUTH-001-login.png)
+
 ### 기본 정보
 
 | 항목 | 내용 |
@@ -125,6 +130,10 @@ SCR-AUTH-001 로그인
 - 서버 또는 네트워크 오류 발생 시 입력값을 유지하고 다시 시도할 수 있도록 안내한다.
 
 ## 7.2 SCR-AUTH-002 회원가입
+
+### 화면 캡처
+
+![SCR-AUTH-002 회원가입 화면](docs/screenshots/SCR-AUTH-002-signup.png)
 
 ### 기본 정보
 
@@ -152,6 +161,10 @@ SCR-AUTH-001 로그인
 - 비밀번호와 비밀번호 확인 값이 다르면 확인 필드 아래에 오류를 표시한다.
 
 ## 7.3 SCR-SYNC-001 연동 방식 선택
+
+### 화면 캡처
+
+![SCR-SYNC-001 연동 방식 선택 화면](docs/screenshots/SCR-SYNC-001-connect.png)
 
 ### 기본 정보
 
@@ -181,6 +194,10 @@ SCR-AUTH-001 로그인
 - 파일 안에 다이빙 기록이 없으면 확인 가능한 기록이 없다고 안내한다.
 
 ## 7.4 SCR-LOG-001 연동 데이터 확인
+
+### 화면 캡처
+
+![SCR-LOG-001 연동 데이터 확인 화면](docs/screenshots/SCR-LOG-001-review.png)
 
 ### 기본 정보
 
@@ -215,6 +232,10 @@ SCR-AUTH-001 로그인
 - 평균 수심이 없으면 SAC·RMV 계산에 제한이 생길 수 있음을 안내한다.
 
 ## 7.5 SCR-LOG-002 추가 정보 입력
+
+### 화면 캡처
+
+![SCR-LOG-002 추가 정보 입력 화면](docs/screenshots/SCR-LOG-002-extra.png)
 
 ### 기본 정보
 
@@ -251,6 +272,10 @@ SCR-AUTH-001 로그인
 
 ## 7.6 SCR-LOG-003 최종 확인 및 저장
 
+### 화면 캡처
+
+![SCR-LOG-003 최종 확인 및 저장 화면](docs/screenshots/SCR-LOG-003-final.png)
+
 ### 기본 정보
 
 | 항목 | 내용 |
@@ -277,6 +302,10 @@ SCR-AUTH-001 로그인
 - 중복 가능성이 있는 기록은 저장 전에 다시 확인한다.
 
 ## 7.7 SCR-MAIN-001 대시보드
+
+### 화면 캡처
+
+![SCR-MAIN-001 대시보드 화면](docs/screenshots/SCR-MAIN-001-dashboard.png)
 
 ### 기본 정보
 
@@ -305,6 +334,10 @@ SCR-AUTH-001 로그인
 
 ## 7.8 SCR-LOG-004 로그 목록
 
+### 화면 캡처
+
+![SCR-LOG-004 로그 목록 화면](docs/screenshots/SCR-LOG-004-list.png)
+
 ### 기본 정보
 
 | 항목 | 내용 |
@@ -329,6 +362,10 @@ SCR-AUTH-001 로그인
 - 저장된 로그가 없으면 새 로그 작성 버튼을 표시한다.
 
 ## 7.9 SCR-LOG-005 로그 상세
+
+### 화면 캡처
+
+![SCR-LOG-005 로그 상세 화면](docs/screenshots/SCR-LOG-005-detail.png)
 
 ### 기본 정보
 
@@ -363,6 +400,10 @@ SCR-AUTH-001 로그인
 
 ## 7.10 SCR-EQP-001 장비 관리
 
+### 화면 캡처
+
+![SCR-EQP-001 장비 관리 화면](docs/screenshots/SCR-EQP-001-equipment.png)
+
 ### 기본 정보
 
 | 항목 | 내용 |
@@ -386,6 +427,10 @@ SCR-AUTH-001 로그인
 - 필수 정보가 없는 장비는 저장하지 않고 누락 항목을 표시한다.
 
 ## 7.11 SCR-MY-001 내 정보
+
+### 화면 캡처
+
+![SCR-MY-001 내 정보 화면](docs/screenshots/SCR-MY-001-profile.png)
 
 ### 기본 정보
 
@@ -415,6 +460,10 @@ SCR-AUTH-001 로그인
 
 ## 7.12 SCR-SOCIAL-001 친구·공유
 
+### 화면 캡처
+
+![SCR-SOCIAL-001 친구·공유 화면](docs/screenshots/SCR-SOCIAL-001-friends.png)
+
 ### 기본 정보
 
 | 항목 | 내용 |
@@ -434,6 +483,10 @@ SCR-AUTH-001 로그인
 | ④ | REQ-FUNC-015 | 공유 로그 | 본인과 친구의 친구 공개·전체 공개 로그, 작성자, 날짜, 버디와 대표 사진을 표시한다. 선택 시 해당 로그 상세로 이동한다. | 나만 보기 로그 제외, SCR-LOG-005 |
 
 ## 7.13 SCR-SOCIAL-002 버디 로그
+
+### 화면 캡처
+
+![SCR-SOCIAL-002 버디 로그 화면](docs/screenshots/SCR-SOCIAL-002-logs.png)
 
 ### 기본 정보
 
